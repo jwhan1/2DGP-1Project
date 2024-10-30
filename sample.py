@@ -1,85 +1,10 @@
 from pico2d import *
 
+from Background import Background
+from Foods import Foods
+from Furniture import Furniture
+
 Ingredient = list({'fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi'})
-
-class Background:
-    def __init__(self, what):
-        if what == 'background':
-            self.x = 400
-            self.y = 300
-            self.image = load_image(f'image/{what}.png')
-            self.w = self.image.w
-            self.h = self.image.h
-            self.imgW = self.image.w
-            self.imgH = self.image.h
-        elif what == 'floor':
-            self.x = 400
-            self.y = 50
-            self.w = 800
-            self.h = 100
-            self.image = load_image(f'image/{what}.png')
-            self.imgW = self.image.w
-            self.imgH = self.image.h
-
-    def update(self):
-        pass
-    def draw(self):
-        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
-    def handle_event(self, event):
-        pass
-
-
-class Furniture:
-    def __init__(self, what, x, y):
-        self.x = x
-        self.y = 100 + y/2
-        self.w = 100
-        self.h = y
-        self.image = load_image(f'image/furniture/{what}.png')
-        self.imgW = self.image.w
-        self.imgH = self.image.h
-    def update(self):
-        pass
-    def draw(self):
-        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
-    def handle_event(self, event):
-        pass
-
-class Foods:
-    def __init__(self, what, x, y):
-        self.x = x
-        self.y = 100 + y
-        self.w = 50
-        self.h = 50
-
-        self.image = load_image(f'image/food/{what}.png')
-        self.imgW = self.image.w
-        self.imgH = self.image.h
-    def update(self):
-        pass
-    def draw(self):
-        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
-    def handle_event(self, event):
-        pass
-
-class Charater:
-    def __init__(self, what):
-        self.x = 50
-        self.y = 550
-        self.w = 100
-        self.h = 100
-        self.image = load_image(f'image/food/{what}.png')
-        self.imgW = self.image.w
-        self.imgH = self.image.h
-    def update(self):
-        pass
-    def draw(self):
-        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
-    def handle_event(self, event):
-        pass
-
-
-
 
 def update_world():
     for o in world:
