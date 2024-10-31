@@ -3,6 +3,8 @@ from pico2d import *
 from Background import Background
 from Foods import Foods
 from Furniture import Furniture
+from Charater import Charater
+
 
 Ingredient = list({'fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi'})
 
@@ -17,9 +19,9 @@ def rander_world():
     update_canvas()
 
 def reset_world():
-    global running, world, food, background, floor, countertop, counter
+    global running, world, background, floor, countertop, counter, food, charater
     running = True
-    world=[]
+    world=[]# 먼저 선언한 것이 뒤로
 
     background = Background('background')
     world.append(background)
@@ -27,14 +29,19 @@ def reset_world():
     floor = Background('floor')
     world.append(floor)
 
-    food = [Foods(Ingredient[i],i * 100 + 50, 50) for i in range(len(Ingredient))]#음식들
-    world += food
+
     
     countertop = Furniture('table', 750, 100)#테이블
     world.append(countertop)
 
     counter = Furniture('counter', 650, 200)#음식 투입구
     world.append(counter)
+    
+    food = [Foods(Ingredient[i],i * 100 + 50, 50) for i in range(len(Ingredient))]#음식들
+    world += food
+
+    charater = Charater()# 플레이어 캐릭터
+    world.append(charater)
 
 
 def handle_events():
@@ -53,6 +60,6 @@ while running:
     handle_events()
     update_world()
     rander_world()
-    delay(0.01)
+    delay(1)
 
 close_canvas()
