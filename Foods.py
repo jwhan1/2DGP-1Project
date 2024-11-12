@@ -17,3 +17,9 @@ class Foods:
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
     def handle_event(self, event):
         pass
+#충돌
+    def get_bb(self):
+        pass
+    def handle_collision(self, group, other):
+            pass
+

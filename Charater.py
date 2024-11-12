@@ -1,33 +1,26 @@
 from pico2d import *
-#캐릭터 관련 조작 : 4방향키, e
-def right_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[0] == SDLK_RIGHT
-def right_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[0] == SDLK_RIGHT
-def left_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[0] == SDLK_LEFT
-def left_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[0] == SDLK_LEFT
-def up_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[0] == SDLK_UP
-def up_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[0] == SDLK_UP
-def down_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[0] == SDLK_DOWN
-def down_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[0] == SDLK_DOWN
-def space_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[0] == SDLK_SPACE
-def press_e(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[0] == SDLK_e
+from StateMachine import *
 
-def time_out(e):
-    return e[0] == 'TIME_OUT'
+import Game_world
+import framework
 
-def start(e):
-    return e[0] == 'START'
+# Boy Run Speed
+PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+RUN_SPEED_KMPH = 20.0  # Km / Hour
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+# Boy Action Speed
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
+
 
 class Charater:
+    image_w=120
+    image_h=130
     def __init__(self):
         self.x, self.y = 400, 300    #위치
         self.w, self.h = 100, 100   #크기
@@ -37,9 +30,7 @@ class Charater:
         self.state_machine = StateMachine(self)
         self.state_machine.start(Idle)
 
-
-
-        self.image = load_image(f'image\chief.png')
+        self.image = load_image(f'image/chief.png')
 
         self.state_machine.set_transitions(
             {
@@ -48,7 +39,6 @@ class Charater:
                 #Interrect: { time_out: Idle, right_down or left_down or up_down or down_down: Move } #상호작용
                 })
         
-
     def update(self):
         self.state_machine.update()
     def draw(self):
@@ -57,76 +47,72 @@ class Charater:
         #input event
         #state machine event : (이벤트 종류, 큐)
         self.state_machine.add_event(('INPUT', event))
+#충돌
+    def get_bb(self):
         pass
-    def start(self):
-        pass
-    def state(self):
-        pass
+    def handle_collision(self, group, other):
+            pass
+
+
 
 class Idle:
-    
-    @staticmethod
-    def start(boy,e):
-        boy.action = 8
-        boy.frame = 0
-        boy.dir = 0
-        
     @staticmethod
     def enter(boy,e):
-        if boy.action < 4:
-            boy.action = boy.action + 4
+        if start(e):
+            boy.action = 3
+            boy.face_dir = 1
+        elif right_down(e) or left_up(e):
+            boy.action = 2
+            boy.face_dir = -1
+        elif left_down(e) or right_up(e):
+            boy.action = 3
+            boy.face_dir = 1
+
         boy.frame = 0
-        boy.dir = 0
-        
+        boy.wait_time = get_time()
+  
     @staticmethod
     def exit(boy,e):
         pass
 
     @staticmethod
     def do(boy):
-        print(boy.frame)
-        boy.frame = (boy.frame + 1) % 3
+        boy.frame = (boy.frame + FRAMES_PER_ACTION*ACTION_PER_TIME* framework.frame_time) % 8
 
     @staticmethod
     def draw(boy):
-            boy.image.clip_draw(boy.frame * 120, boy.action * 130, 120, 130, boy.x, boy.y)
+            boy.image.clip_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, 120, 130, boy.x, boy.y)
 
 class Move:
-    pass
+    @staticmethod
+    def enter(boy, e):
+        if right_down(e) or left_up(e): # 오른쪽으로 RUN
+            boy.dir, boy.face_dir, boy.action = 1, 1, 1
+        elif left_down(e) or right_up(e): # 왼쪽으로 RUN
+            boy.dir, boy.face_dir, boy.action = -1, -1, 0
+
+    @staticmethod
+    def exit(boy, e):
+        if space_down(e):
+            boy.fire_ball()
+
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time) % 8
+
+        boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
+        pass
+
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_draw(int(boy.frame) * 120, boy.action * 130, 120, 130, boy.x, boy.y)
+
+
 
 class Interrect:
     pass
 
-class StateMachine:
-    #상태 처리
-    def __init__(self,o):
-        self.o = o# 객체
-        self.event_que=[] #발생한 이벤트
-
-    def start(self, start_state):
-        # 시작 상태
-        self.cur_state = start_state # Idle
-        self.cur_state.enter(self.o,('START', 0))
-   
-    def add_event(self,event):
-        self.event_que.append(event)#상태머신내에 이벤트
-        
-    def set_transitions(self, transitions):
-        self.transitions = transitions
-
-    def update(self):
-        # 상태 업데이트
-        self.cur_state.do(self.o) 
-        #이벤트 발생 시 상태 변환
-        if self.event_que:
-            e = self.event_que.pop[0]
-            for check_event, next_state, in self.transitions(self.cur_state.items()):
-                if check_event(e):
-                    print(f'exit from{self.cur_state}')
-                    self.cur_state.exit(self.o)
-                    self.cur_state = next_state
-                    print(f'enter to{self.cur_state}')
-                    self.cur_state.enter(self.o)
-
-    def draw(self):
-        self.cur_state.draw(self.o)
