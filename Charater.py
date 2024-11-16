@@ -33,8 +33,8 @@ class Charater:
         self.image = load_image(f'image/chief.png')
 
         self.state_machine.set_transitions(
-            {Idle: {right_down : Move, left_down : Move, up_down : Move, down_down: Move }, 
-            Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle}}
+            {Idle: {right_down : Move, left_down : Move, up_down : Move, down_down: Move, press_e:Idle }, 
+            Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle, press_e:Move}}
             )
         self.onhand = None
     def update(self):
@@ -49,6 +49,8 @@ class Charater:
     def handle_collision(self, group, other):
             if group == 'charater:food' and self.onhand == None:
                     self.onhand = other
+            elif group == 'charater:counter' and self.onhand == None:
+                pass
 
 
 
@@ -69,7 +71,8 @@ class Idle:
   
     @staticmethod
     def exit(boy,e):
-        pass
+        if press_e(e):
+            pass
 
     @staticmethod
     def do(boy):
@@ -94,7 +97,8 @@ class Move:
             boy.xdir, boy.ydir, boy.action = 0, -1, 3
     @staticmethod
     def exit(boy, e):
-        pass
+        if press_e(e):
+            pass
 
     @staticmethod
     def do(boy):
@@ -102,10 +106,11 @@ class Move:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-
-        boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
-
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
     @staticmethod
     def draw(boy):
         boy.image.clip_draw(int(boy.frame) * 120, boy.action * 130, 120, 130, boy.x, boy.y)

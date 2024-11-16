@@ -23,7 +23,7 @@ def handle_events():
             charater.handle_event(event)
 
 def init():
-    global charater, foods#충돌하는 물체만
+    global charater, foods, counter#충돌하는 물체만
     background = Background('background')
     Game_world.add_object(background,0)
 
@@ -35,17 +35,19 @@ def init():
 
     counter = Furniture('counter', 650, 200)#음식 투입구
     Game_world.add_object(counter,0)
-    
+    Game_world.add_collision_pair('charater:counter',None,counter)
+
+
     foods = [Foods(Ingredient[i],i * 100 + 50, 50) for i in range(len(Ingredient))]#음식들
     Game_world.add_objects(foods,1)
+    for food in foods:
+        Game_world.add_collision_pair('charater:food',None,food)
 
     charater = Charater()# 플레이어 캐릭터
     Game_world.add_object(charater,1)
-
+    Game_world.add_collision_pair('charater:counter',charater,None)
     Game_world.add_collision_pair('charater:food',charater,None)
 
-    for food in foods:
-        Game_world.add_collision_pair('charater:food',None,food)
 
 
 
