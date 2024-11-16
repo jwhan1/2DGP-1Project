@@ -19,7 +19,7 @@ class Furniture:
         pass
     #충돌
     def get_bb(self):
-        pass
+        return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
             pass
 
