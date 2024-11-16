@@ -36,14 +36,24 @@ class Charater:
             {Idle: {right_down : Move, left_down : Move, up_down : Move, down_down: Move, press_e:Idle }, 
             Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle, press_e:Move}}
             )
-        self.onhand = None
-        self.placeputup = None
+        self.onhand = None#들고 있는 음식
+        self.placeputup = []#접근 가능한 가구
+        self.handrangefood = []#접근 가능한 음식
+        
     def update(self):
         self.state_machine.update()
 
-        if self.placeputup != None:
-            if (self.placeputup.x - self.placeputup.w < self.x + self.w and self.placeputup.x + self.placeputup.w > self.x - self.w and self.placeputup.y + self.placeputup.h > self.y - self.h and self.placeputup.y - self.placeputup.h < self.y + self.h):
-                self.placeputup = None
+        if self.placeputup:
+            for o in self.placeputup:
+                if not (o.x + o.w > self.w - self.w and o.x - o.w < self.w + self.w  and o.y + o.h > self.y - self.h and o.y - o.h < self.y + self.h):
+                    self.placeputup.remove(o)
+                    
+        if self.handrangefood:
+            for o in self.handrangefood:
+                if not (o.x + o.w > self.w - self.w and o.x - o.w < self.w + self.w  and o.y + o.h > self.y - self.h and o.y - o.h < self.y + self.h):
+                    self.handrangefood.remove(o)
+
+
     def draw(self):
         self.state_machine.draw()
         draw_rectangle(*self.get_bb())
@@ -52,19 +62,15 @@ class Charater:
 #충돌
     def get_bb(self):
         return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
+    
     def handle_collision(self, group, other):
-            if group == 'charater:food' and self.onhand == None:# 음식 잡기
-                self.onhand = other
-            elif group == 'charater:counter' and self.onhand != None:
-                self.placeputup = other #제출하기
-            elif group == 'charater:funiture':
-                if self.onhand == None:
-                    pass#조리하기
-                #elif ???:
-                    pass#가져오기
-
-
-
+            if group == 'charater:food':# 반경에 들어온 음식 
+                food = other
+                self.handrangefood.append(food)#접근 가능한 음식
+            elif group == 'charater:counter' or group == 'charater:cookware':
+                place = other
+                self.placeputup.append(place) #접근 가능한 장소
+                
 class Idle:
     @staticmethod
     def enter(boy,e):
@@ -83,12 +89,26 @@ class Idle:
     @staticmethod
     def exit(boy,e):
         if press_e(e) :
-            if boy.onhand == None:
-                pass
-            elif boy.onhand !=None and boy.placeputup != None:
-                boy.onhand.x=675
-                boy.onhand.y=200
-                boy.onhand = None
+            if boy.onhand == None and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+
+                if target != None:# 잡기
+                    boy.onhand = target
+                    boy.onhand.x = 750
+                    boy.onhand.y = 50
+            elif boy.onhand != None and boy.placeputup != None: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
+
+                if place != None:
+                    boy.onhand.x = place.x
+                    boy.onhand.y = place.y
+                    boy.onhand = None
 
     @staticmethod
     def do(boy):

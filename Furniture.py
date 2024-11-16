@@ -2,11 +2,11 @@ from pico2d import load_image, draw_rectangle
 
 
 class Furniture:
-    def __init__(self, what, x, y):
+    def __init__(self, what, x, y,w,h):
         self.x = x
-        self.y = 100 + y/2
-        self.w = 100
-        self.h = y
+        self.y = y
+        self.w = w
+        self.h = h
         self.image = load_image(f'image/furniture/{what}.png')
         self.imgW = self.image.w
         self.imgH = self.image.h

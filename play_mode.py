@@ -27,13 +27,22 @@ def init():
     background = Background()
     Game_world.add_object(background,0)
     
-    countertop = Furniture('table', 750, 100)#테이블
-    Game_world.add_object(countertop,0)
 
-    counter = Furniture('counter', 650, 200)#음식 투입구
+    counter = Furniture('counter', 650, 200,100,200)#음식 투입구
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
+    chopping_board = Furniture('chopping_board', 350, 200,60,60)#도마
+    Game_world.add_object(chopping_board,0)
+    Game_world.add_collision_pair('charater:cookware',None,chopping_board)  
+
+    cooking_pot = Furniture('cooking_pot', 250, 200,60,60)#냄비
+    Game_world.add_object(cooking_pot,0)
+    Game_world.add_collision_pair('charater:cookware',None,cooking_pot)  
+
+    frying_pan = Furniture('frying_pan', 150, 200,60,60)#프라이팬
+    Game_world.add_object(frying_pan,0)
+    Game_world.add_collision_pair('charater:cookware',None,frying_pan)  
 
     foods = [Foods(Ingredient[i], i * 100 + 50, 100) for i in range(len(Ingredient))]#음식들
     Game_world.add_objects(foods,1)
