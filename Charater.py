@@ -23,7 +23,7 @@ class Charater:
     image_h = 130
     def __init__(self):
         self.x, self.y = 400, 300    #위치
-        self.w, self.h = 100, 100   #크기
+        self.w, self.h = 50, 50   #크기
         self.xdir, self.ydir = 0, 0    #이동
         self.frame = 0
         self.action = 7             #동작
@@ -37,8 +37,13 @@ class Charater:
             Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle, press_e:Move}}
             )
         self.onhand = None
+        self.placeputup = None
     def update(self):
         self.state_machine.update()
+
+        if self.placeputup != None:
+            if (self.placeputup.x - self.placeputup.w < self.x + self.w and self.placeputup.x + self.placeputup.w > self.x - self.w and self.placeputup.y + self.placeputup.h > self.y - self.h and self.placeputup.y - self.placeputup.h < self.y + self.h):
+                self.placeputup = None
     def draw(self):
         self.state_machine.draw()
         draw_rectangle(*self.get_bb())
@@ -48,10 +53,15 @@ class Charater:
     def get_bb(self):
         return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
-            if group == 'charater:food' and self.onhand == None:
-                    self.onhand = other
-            elif group == 'charater:counter' and self.onhand == None:
-                pass
+            if group == 'charater:food' and self.onhand == None:# 음식 잡기
+                self.onhand = other
+            elif group == 'charater:counter' and self.onhand != None:
+                self.placeputup = other #제출하기
+            elif group == 'charater:funiture':
+                if self.onhand == None:
+                    pass#조리하기
+                #elif ???:
+                    pass#가져오기
 
 
 
@@ -72,8 +82,13 @@ class Idle:
   
     @staticmethod
     def exit(boy,e):
-        if press_e(e):
-            pass
+        if press_e(e) :
+            if boy.onhand == None:
+                pass
+            elif boy.onhand !=None and boy.placeputup != None:
+                boy.onhand.x=675
+                boy.onhand.y=200
+                boy.onhand = None
 
     @staticmethod
     def do(boy):
