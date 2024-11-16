@@ -2,29 +2,20 @@ from pico2d import load_image
 
 
 class Background:
-    def __init__(self, what):
-        if what == 'background':
-            self.x = 400
-            self.y = 300
-            self.image = load_image(f'image/{what}.png')
-            self.w = self.image.w
-            self.h = self.image.h
-            self.imgW = self.image.w
-            self.imgH = self.image.h
-        elif what == 'floor':
-            self.x = 400
-            self.y = 50
-            self.w = 800
-            self.h = 100
-            self.image = load_image(f'image/{what}.png')
-            self.imgW = self.image.w
-            self.imgH = self.image.h
+    def __init__(self):
+        self.background = GameObject('image/background.png',400,300,800,600)
 
+        self.floor = GameObject('image/floor.png',400,50,800,100)
+
+        self.itemUI = GameObject('image/itemUI.png',750,50,60,60)
     def update(self):
         pass
 
     def draw(self):
-        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
+        self.background.image.clip_draw(0, 0, self.background.image.w, self.background.image.h, self.background.x, self.background.y, self.background.w, self.background.h)
+        self.floor.image.clip_draw(0, 0, self.floor.image.w, self.floor.image.h, self.floor.x, self.floor.y, self.floor.w, self.floor.h)
+        self.itemUI.image.clip_draw(0, 0, self.itemUI.image.w, self.itemUI.image.h, self.itemUI.x, self.itemUI.y, self.itemUI.w, self.itemUI.h)
+
 
     def handle_event(self, event):
         pass
@@ -35,3 +26,10 @@ class Background:
     def handle_collision(self, group, other):
             pass
 
+class GameObject:
+    def __init__(self, image_path, x, y, w=0, h=0):
+        self.image = load_image(image_path)
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h

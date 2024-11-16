@@ -24,11 +24,8 @@ def handle_events():
 
 def init():
     global charater, foods, counter#충돌하는 물체만
-    background = Background('background')
+    background = Background()
     Game_world.add_object(background,0)
-
-    floor = Background('floor')
-    Game_world.add_object(floor,0)
     
     countertop = Furniture('table', 750, 100)#테이블
     Game_world.add_object(countertop,0)
