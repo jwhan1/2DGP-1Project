@@ -41,6 +41,7 @@ class Charater:
         self.state_machine.update()
     def draw(self):
         self.state_machine.draw()
+        draw_rectangle(*self.get_bb())
     def handle_event(self, event):
         self.state_machine.add_event(('INPUT', event))
 #충돌
@@ -82,7 +83,7 @@ class Idle:
             boy.frame = 0
     @staticmethod
     def draw(boy):
-            boy.image.clip_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, 120, 130, boy.x, boy.y)
+            boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h )
 
 class Move:
     @staticmethod
@@ -113,4 +114,4 @@ class Move:
         
     @staticmethod
     def draw(boy):
-        boy.image.clip_draw(int(boy.frame) * 120, boy.action * 130, 120, 130, boy.x, boy.y)
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)

@@ -1,4 +1,4 @@
-from pico2d import load_image
+from pico2d import load_image, draw_rectangle
 
 
 class Foods:
@@ -15,6 +15,7 @@ class Foods:
         pass
     def draw(self):
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
+        draw_rectangle(*self.get_bb())
     def handle_event(self, event):
         pass
 #충돌

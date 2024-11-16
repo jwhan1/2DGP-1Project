@@ -38,7 +38,7 @@ def init():
     Game_world.add_collision_pair('charater:counter',None,counter)
 
 
-    foods = [Foods(Ingredient[i],i * 100 + 50, 50) for i in range(len(Ingredient))]#음식들
+    foods = [Foods(Ingredient[i], i * 100 + 50, 100) for i in range(len(Ingredient))]#음식들
     Game_world.add_objects(foods,1)
     for food in foods:
         Game_world.add_collision_pair('charater:food',None,food)
