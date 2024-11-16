@@ -4,7 +4,7 @@ from pico2d import load_image
 class Foods:
     def __init__(self, what, x, y):
         self.x = x
-        self.y = 100 + y
+        self.y = y
         self.w = 50
         self.h = 50
 
@@ -21,5 +21,6 @@ class Foods:
     def get_bb(self):
        return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
-            pass
+            if group == 'charater:food' and  (other.onhand == None or other.onhand == self):
+                    self.x, self.y=750, 50
 

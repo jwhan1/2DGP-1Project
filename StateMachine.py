@@ -62,7 +62,6 @@ class StateMachine:
         #이벤트 상태 변환
         
         for event, next_state in self.transitions[self.cur_state].items():
-            print(f'{event} {event(e)}')
             if event(e):
                 print(f'exit from{self.cur_state}')
                 self.cur_state.exit(self.o, e)

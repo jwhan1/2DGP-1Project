@@ -36,7 +36,7 @@ class Charater:
             {Idle: {right_down : Move, left_down : Move, up_down : Move, down_down: Move }, 
             Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle}}
             )
-        
+        self.onhand = None
     def update(self):
         self.state_machine.update()
     def draw(self):
@@ -47,7 +47,8 @@ class Charater:
     def get_bb(self):
         return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
-            pass
+            if group == 'charater:food' and self.onhand == None:
+                    self.onhand = other
 
 
 
