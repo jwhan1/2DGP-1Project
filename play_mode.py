@@ -6,7 +6,7 @@ from Background import Background
 from Foods import Foods
 from Furniture import Furniture
 from Charater import Charater
-
+import pause_mode
 
 
 Ingredient = list({'fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi'})#음식의 종류
@@ -19,6 +19,9 @@ def handle_events():
             framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_0:
+            print(pause)
+            framework.push_mode(pause_mode)
         else:
             charater.handle_event(event)
 
