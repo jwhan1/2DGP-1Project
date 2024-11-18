@@ -147,6 +147,11 @@ class Move:
         if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
+     
+    # 들고 있는 객체(onhand)의 위치를 업데이트
+        if boy.onhand is not None:
+            boy.onhand.x = boy.x
+            boy.onhand.y = boy.y
     @staticmethod
     def draw(boy):
         boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
