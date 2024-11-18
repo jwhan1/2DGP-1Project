@@ -3,8 +3,10 @@ import framework
 import Game_world
 
 from Background import Background
+from UI import UI
 from Foods import Foods
 from Furniture import Furniture
+from cookware import Cookware
 from Charater import Charater
 import pause_mode
 
@@ -26,31 +28,36 @@ def handle_events():
             charater.handle_event(event)
 
 def init():
-    global charater, foods, counter#충돌하는 물체만
+    global Ui, charater, foods, counter, cookwares#충돌하는 물체만
+
+
     background = Background()
     Game_world.add_object(background,0)
-    
+
+    Ui = UI()
+    Game_world.add_object(Ui,0)
 
     counter = Furniture('counter', 650, 200,100,200)#음식 투입구
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
-    chopping_board = Furniture('chopping_board', 350, 200,60,60)#도마
+    chopping_board = Cookware('chopping_board', 30, 300,60,60)#도마
     Game_world.add_object(chopping_board,0)
     Game_world.add_collision_pair('charater:cookware',None,chopping_board)  
 
-    cooking_pot = Furniture('cooking_pot', 250, 200,60,60)#냄비
+    cooking_pot = Cookware('cooking_pot', 30, 400,60,60)#냄비
     Game_world.add_object(cooking_pot,0)
     Game_world.add_collision_pair('charater:cookware',None,cooking_pot)  
 
-    frying_pan = Furniture('frying_pan', 150, 200,60,60)#프라이팬
+    frying_pan = Cookware('frying_pan', 30, 500,60,60)#프라이팬
     Game_world.add_object(frying_pan,0)
     Game_world.add_collision_pair('charater:cookware',None,frying_pan)  
-
+    
     foods = [Foods(Ingredient[i], i * 100 + 50, 100) for i in range(len(Ingredient))]#음식들
     Game_world.add_objects(foods,1)
     for food in foods:
         Game_world.add_collision_pair('charater:food',None,food)
+        Game_world.add_collision_pair('cookware:food',None,food)
 
     charater = Charater()# 플레이어 캐릭터
     Game_world.add_object(charater,1)
@@ -76,8 +83,13 @@ def draw():
     update_canvas()
 
 def pause():
+    #UI시간 멈추기
+    global pausetime
+    pausetime = framework.frame_time
     pass
 
 def resume():
+    #멈춘 시간만큼 UI시간 수정
+    Ui.timer = Ui.timer + framework.frame_time - pausetime
     pass
 
