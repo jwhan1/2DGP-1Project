@@ -1,7 +1,7 @@
 from pico2d import *
 import framework
 import Game_world
-import play_mode
+import levelchoose_mode
 
 def handle_events():
     global charater
@@ -10,7 +10,7 @@ def handle_events():
         if event.type == SDL_QUIT or event.key == SDLK_ESCAPE:
             framework.quit()
         elif event.type == SDL_KEYDOWN :
-            framework.change_mode(play_mode)
+            framework.change_mode(levelchoose_mode)
            
 
 def init():

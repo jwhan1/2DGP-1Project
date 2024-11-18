@@ -7,6 +7,9 @@ class Foods:
         self.y = y
         self.w = 50
         self.h = 50
+        self.timer = 15
+
+
 
         self.image = load_image(f'image/food/{what}.png')
         self.imgW = self.image.w
