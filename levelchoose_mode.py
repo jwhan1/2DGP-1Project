@@ -14,8 +14,9 @@ def handle_events():
            
 
 def init():
-    global image
-    image = load_image('image/itemUI.png')
+    global image,imageui
+    image = load_image('image/title.png')
+    imageui = load_image('image\selectlevelUI.png')
 
 
 def finish():
@@ -26,6 +27,7 @@ def update():
 def draw():
     clear_canvas()
     image.clip_draw(0, 0, image.w, image.h, 400, 300, 800, 600)
+    imageui.clip_draw(0, 0, image.w, image.h, 400, 300, 400, 100)
     update_canvas()
 
 def pause():
