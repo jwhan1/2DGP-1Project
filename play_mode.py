@@ -61,6 +61,7 @@ def init():
 
     charater = Charater()# 플레이어 캐릭터
     Game_world.add_object(charater,1)
+    Game_world.add_collision_pair('charater:cookware',charater,None)
     Game_world.add_collision_pair('charater:counter',charater,None)
     Game_world.add_collision_pair('charater:food',charater,None)
 

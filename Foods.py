@@ -1,6 +1,13 @@
 from pico2d import load_image, draw_rectangle, load_font
 from StateMachine import *
 
+whatfood = {'apple_green','apple_red','apple_yellow','abocado_whole',
+            'banana','beet','blueberries',
+            'cantaloupe_whole','carrot','cheese','cherries',
+            'tomato',
+            'watermelon',
+            'strawberry'}
+
 class Foods:
     
     def __init__(self, what, x, y):
@@ -8,15 +15,11 @@ class Foods:
         self.y = y
         self.w = 50
         self.h = 50
-        self.timer = 15
-        self.state_machine = StateMachine(self)
-        self.state_machine.start(Idle)
+        self.name = what#음식
 
-        self.state_machine.set_transitions(
-            {Idle: {time_out:Idle }
-            })
-
+        
         self.image = load_image(f'image/food/{what}.png')
+
         self.imgW = self.image.w
         self.imgH = self.image.h
     def update(self):
@@ -34,31 +37,5 @@ class Foods:
                 pass
             elif group == 'charater:food':
                 pass
-
-class Idle:
-    @staticmethod
-    def enter(boy,e):
-        pass
-    @staticmethod
-    def exit(boy,e):
-        pass
-    @staticmethod
-    def do(boy):
-        pass
-    @staticmethod
-    def draw(food):
-        food.image.clip_draw(0, 0, food.imgW, food.imgH, food.x, food.y, food.w, food.h)
-
-class cooking:
-    @staticmethod
-    def enter(boy,e):
-        pass
-    @staticmethod
-    def exit(boy,e):    
-        pass
-    @staticmethod
-    def do(boy):
-        pass
-    @staticmethod
-    def draw(food):
-        food.image.clip_draw(0, 0, food.imgW, food.imgH, food.x, food.y, food.w, food.h)
+    def draw(self):
+        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)

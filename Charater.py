@@ -36,7 +36,7 @@ class Charater:
             {Idle: {right_down : Move, left_down : Move, up_down : Move, down_down: Move, press_e:Idle }, 
             Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle, press_e:Move}}
             )
-        self.onhand = None#들고 있는 음식
+        self.onhand = []#들고 있는 음식
         self.placeputup = []#접근 가능한 가구
         self.handrangefood = []#접근 가능한 음식
         
@@ -89,26 +89,30 @@ class Idle:
     @staticmethod
     def exit(boy,e):
         if press_e(e) :
-            if boy.onhand == None and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+            if len(boy.onhand) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
                 target = None
                 for o in boy.handrangefood:
                     if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
                         target = o
 
                 if target != None:# 잡기
-                    boy.onhand = target
-                    boy.onhand.x = boy.x
-                    boy.onhand.y = boy.y-boy.h/2-boy.onhand.w/2
-            elif boy.onhand != None and boy.placeputup != None: # 조리대, 매대에 음식을 올린다.
+                    boy.onhand.append(target)
+                    target.w /=5
+                    target.h /=5
+                    target.x = boy.x + target.w * boy.onhand.index(target)
+                    target.y = boy.y - boy.h / 2 - target.h
+            elif len(boy.onhand) <= 0 and boy.placeputup != None: # 조리대, 매대에 음식을 올린다.
                 place = None
                 for o in boy.placeputup:
                     if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
                         place = o
 
                 if place != None:
-                    boy.onhand.x = place.x
-                    boy.onhand.y = place.y
-                    boy.onhand = None
+                    boy.onhand[0].w=boy.onhand[0].image.w
+                    boy.onhand[0].h=boy.onhand[0].image.h
+                    boy.onhand[0].x = place.x
+                    boy.onhand[0].y = place.y
+                    boy.onhand.pop(0)
 
     @staticmethod
     def do(boy):
@@ -149,9 +153,9 @@ class Move:
         
      
     # 들고 있는 객체(onhand)의 위치를 업데이트
-        if boy.onhand is not None:
-            boy.onhand.x = boy.x
-            boy.onhand.y = boy.y-boy.h/2-boy.onhand.w/2
+        for o in boy.onhand:
+            o.x = boy.x + o.w * boy.onhand.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
     @staticmethod
     def draw(boy):
         boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
