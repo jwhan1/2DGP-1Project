@@ -35,7 +35,7 @@ def init():
     Game_world.add_object(background,0)
 
     Ui = UI()
-    Game_world.add_object(Ui,0)
+    Game_world.add_object(Ui,2)
 
     counter = Furniture('counter', 650, 200,100,200)#음식 투입구
     Game_world.add_object(counter,0)
@@ -45,11 +45,11 @@ def init():
     Game_world.add_object(chopping_board,0)
     Game_world.add_collision_pair('charater:cookware',None,chopping_board)  
 
-    cooking_pot = Cookware('cooking_pot', 30, 400,60,60)#냄비
+    cooking_pot = Cookware('cooking_pot', 30, 3600,60,60)#냄비
     Game_world.add_object(cooking_pot,0)
     Game_world.add_collision_pair('charater:cookware',None,cooking_pot)  
 
-    frying_pan = Cookware('frying_pan', 30, 500,60,60)#프라이팬
+    frying_pan = Cookware('frying_pan', 30, 420,60,60)#프라이팬
     Game_world.add_object(frying_pan,0)
     Game_world.add_collision_pair('charater:cookware',None,frying_pan)  
     

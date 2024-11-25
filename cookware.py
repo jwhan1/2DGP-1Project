@@ -1,5 +1,6 @@
 from pico2d import load_image, draw_rectangle,load_font
 import framework
+from behavior_tree import BehaviorTree, Action, Sequence, Condition, Selector
 
 class Cookware:
 
@@ -35,3 +36,6 @@ class Cookware:
     def handle_collision(self, group, other):
             pass
 
+
+    def build_behavior_tree(self):
+       pass

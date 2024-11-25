@@ -31,7 +31,7 @@ class Foods:
        return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
             if group == 'charater:food' and  (other.onhand == None or other.onhand == self):
-                    self.x, self.y = 750, 50
+                pass
             elif group == 'charater:food':
                 pass
 

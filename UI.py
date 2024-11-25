@@ -1,4 +1,4 @@
-from pico2d import load_font,os
+from pico2d import *
 import framework
 import time
 
@@ -6,27 +6,30 @@ import time
 GAME_TIME_LIMIT = 180
 
 
+
 class UI:
-    try:
-        font = load_font('ENCR10B.TTF', 16)
-    except Exception as e:
-        print(f"문제가 발생했습니다: {type(e).__name__} - {e}")
+    
     def __init__(self):
-        
+        self.font = load_font('ENCR10B.TTF', 40)
         self.stack=[]#
         self.cooking=[]#
         self.result=[]#
-        self.timer = time.time()# 전체 게임 제한시간
+        self.timer = time.time()# 남은 게임 제한시간
+        self.elapsed_time = GAME_TIME_LIMIT
         self.point = 0# 게임 포인트
-
+        self.image = load_image("image/timer.png")
     def update(self):
-        if time.time() - self.timer > GAME_TIME_LIMIT:# 시간이 되면
-            pass
+        self.elapsed_time = GAME_TIME_LIMIT-(time.time() - self.timer)
+        if self.elapsed_time < 0:# 시간이 되면
+            pass#게임 결과창으로 넘어간다
         
     def draw(self):
         #타이머, 점수 표시
-        print(f'time = {int(GAME_TIME_LIMIT-(time.time() - self.timer))}   /{self.point = }')
-
+        print(f'time = {int(self.elapsed_time)}   /{self.point = }')
+        self.image.clip_composite_draw(0, 0, self.image.w , self.image.h, 0, '', 
+                                       (int)(360 * self.elapsed_time / GAME_TIME_LIMIT),590,
+                                         (int)(720 * self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
+        self.font.draw(20, 560, f'point:{self.point}', (0, 0, 255))
     def handle_event(self, event):
         pass
 

@@ -97,8 +97,8 @@ class Idle:
 
                 if target != None:# 잡기
                     boy.onhand = target
-                    boy.onhand.x = 750
-                    boy.onhand.y = 50
+                    boy.onhand.x = boy.x
+                    boy.onhand.y = boy.y-boy.h/2-boy.onhand.w/2
             elif boy.onhand != None and boy.placeputup != None: # 조리대, 매대에 음식을 올린다.
                 place = None
                 for o in boy.placeputup:
@@ -151,7 +151,7 @@ class Move:
     # 들고 있는 객체(onhand)의 위치를 업데이트
         if boy.onhand is not None:
             boy.onhand.x = boy.x
-            boy.onhand.y = boy.y
+            boy.onhand.y = boy.y-boy.h/2-boy.onhand.w/2
     @staticmethod
     def draw(boy):
         boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
