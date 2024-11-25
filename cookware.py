@@ -9,9 +9,8 @@ class Cookware:
         self.y = y
         self.w = w
         self.h = h
-        self.stack=[]#조리 대기열
-        self.cooking=[]#조리중인 요리
-        self.result=[]#조리된 요리
+        self.max_capacity = 5  # 최대 조리 가능 음식 수
+        self.food_items = []  # 조리 중인 음식 목록
         
         self.timer = framework.frame_time # 요리 시작시간
 
@@ -20,7 +19,7 @@ class Cookware:
         self.imgW = self.image.w
         self.imgH = self.image.h
 
-
+    
        
     def update(self):
         pass
@@ -36,6 +35,17 @@ class Cookware:
     def handle_collision(self, group, other):
             pass
 
+    def add_food(self, food):
+        if len(self.food_items) < self.max_capacity:
+            self.food_items.append(food)
+            print(f"{food.name}을 조리한다")
+        else:
+            print("남은 공간이 없다!")
 
+    def remove_cooked_food(self):
+        cooked_foods = [food for food in self.food_items if food.state == "cooked"]
+        self.food_items = [food for food in self.food_items if food.state != "cooked"]
+        return cooked_foods
+    
     def build_behavior_tree(self):
        pass

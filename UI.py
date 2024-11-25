@@ -25,7 +25,7 @@ class UI:
         
     def draw(self):
         #타이머, 점수 표시
-        print(f'time = {int(self.elapsed_time)}   /{self.point = }')
+        #print(f'time = {int(self.elapsed_time)}   /{self.point = }')
         self.image.clip_composite_draw(0, 0, self.image.w , self.image.h, 0, '', 
                                        (int)(360 * self.elapsed_time / GAME_TIME_LIMIT),590,
                                          (int)(720 * self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머

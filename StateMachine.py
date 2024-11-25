@@ -63,9 +63,9 @@ class StateMachine:
         
         for event, next_state in self.transitions[self.cur_state].items():
             if event(e):
-                print(f'exit from{self.cur_state}')
+                #print(f'exit from{self.cur_state}')
                 self.cur_state.exit(self.o, e)
                 self.cur_state = next_state
-                print(f'enter to{self.cur_state}')
+                #print(f'enter to{self.cur_state}')
                 self.cur_state.enter(self.o, e)
                 return

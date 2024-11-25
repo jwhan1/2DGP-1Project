@@ -1,6 +1,6 @@
 from pico2d import load_image, draw_rectangle
-
-
+import play_mode
+import Game_world
 class Furniture:
     def __init__(self, what, x, y,w,h):
         self.x = x
@@ -10,7 +10,7 @@ class Furniture:
         self.image = load_image(f'image/furniture/{what}.png')
         self.imgW = self.image.w
         self.imgH = self.image.h
-        
+          
     def update(self):
         pass
     def draw(self):
@@ -23,4 +23,11 @@ class Furniture:
         return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
             pass
-
+    def add_food(self, food):
+        #점수를 주고 음식을 제거
+        print('on')
+        play_mode.Ui.point+=100
+        Game_world.remove_collision_object(food)
+        Game_world.remove_object(food)
+        del food
+        pass

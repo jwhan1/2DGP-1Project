@@ -64,7 +64,7 @@ def handle_collision(): #실제 검사를 진행 (어떤 객체의 충돌도 사
         for a in pairs[0]:#a리스트에서 하나
             for b in pairs[1]:#b리스트에서 하나
                 if collide(a,b):#충돌 검사
-                    print(f"{group} collide")
+                    #print(f"{group} collide")
                     a.handle_collision(group, b)
                     b.handle_collision(group, a)
 

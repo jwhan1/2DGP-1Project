@@ -11,7 +11,8 @@ from Charater import Charater
 import pause_mode
 
 
-Ingredient = list({'fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi'})#음식의 종류
+Ingredient = ['fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi']#음식의 종류
+Cookwares = ['chopping_board','cooking_pot','frying_pan' ]
 
 def handle_events():
     global charater
@@ -30,10 +31,8 @@ def handle_events():
 def init():
     global Ui, charater, foods, counter, cookwares#충돌하는 물체만
 
-
     background = Background()
     Game_world.add_object(background,0)
-
     Ui = UI()
     Game_world.add_object(Ui,2)
 
@@ -41,42 +40,33 @@ def init():
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
-    chopping_board = Cookware('chopping_board', 30, 300,60,60)#도마
-    Game_world.add_object(chopping_board,0)
-    Game_world.add_collision_pair('charater:cookware',None,chopping_board)  
+    #       캐릭터,조리도구,음식
+    # 플레이어 캐릭터  
+    charater = Charater()
+    Game_world.add_object(charater,1)
+    Game_world.add_collision_pair('charater:cookware',charater,None)
+    Game_world.add_collision_pair('charater:counter',charater,None)
+    Game_world.add_collision_pair('charater:food',charater,None)
 
-    cooking_pot = Cookware('cooking_pot', 30, 3600,60,60)#냄비
-    Game_world.add_object(cooking_pot,0)
-    Game_world.add_collision_pair('charater:cookware',None,cooking_pot)  
-
-    frying_pan = Cookware('frying_pan', 30, 420,60,60)#프라이팬
-    Game_world.add_object(frying_pan,0)
-    Game_world.add_collision_pair('charater:cookware',None,frying_pan)  
-    
+    # 조리도구
+    cookwares = [Cookware(Cookwares[i],30, i * 60 + 300, 60,60) for i in range(len(Cookwares))]
+    Game_world.add_objects(cookwares,0)
+    for cookware in cookwares:
+        Game_world.add_collision_pair('charater:cookware',None,cookware)  
+    # 음식
     foods = [Foods(Ingredient[i], i * 100 + 50, 100) for i in range(len(Ingredient))]#음식들
     Game_world.add_objects(foods,1)
     for food in foods:
         Game_world.add_collision_pair('charater:food',None,food)
         Game_world.add_collision_pair('cookware:food',None,food)
 
-    charater = Charater()# 플레이어 캐릭터
-    Game_world.add_object(charater,1)
-    Game_world.add_collision_pair('charater:cookware',charater,None)
-    Game_world.add_collision_pair('charater:counter',charater,None)
-    Game_world.add_collision_pair('charater:food',charater,None)
-
-
-
-
 def finish():
     Game_world.clear()
     pass
 
-
 def update():
     Game_world.update()
     Game_world.handle_collision()
-
 
 def draw():
     clear_canvas()
