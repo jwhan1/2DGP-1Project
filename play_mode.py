@@ -5,13 +5,18 @@ import Game_world
 from Background import Background
 from UI import UI
 from Foods import Foods
-from Furniture import Furniture
-from cookware import Cookware
+from Furniture import Furniture, Cookware, FoodBox
 from Charater import Charater
 import pause_mode
 
 
-Ingredient = ['fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi']#음식의 종류
+Ingredient = ['fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi',
+              'apple_green','apple_red','apple_yellow','avocado_whole',
+            'banana','beet','blueberries',
+            'cantaloupe_whole','carrot','cheese','cherries',
+            'strawberry',
+            'tomato',
+            'watermelon_whole']#음식의 종류
 Cookwares = ['chopping_board','cooking_pot','frying_pan' ]
 
 def handle_events():
@@ -59,6 +64,9 @@ def init():
     for food in foods:
         Game_world.add_collision_pair('charater:food',None,food)
         Game_world.add_collision_pair('cookware:food',None,food)
+    foodboxs=[FoodBox(Ingredient[i],i * 60 , 200, 60,60) for i in range(len(Ingredient))]
+    Game_world.add_objects(foods,1)
+
 
 def finish():
     Game_world.clear()

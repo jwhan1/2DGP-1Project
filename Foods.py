@@ -46,7 +46,5 @@ class Foods:
     def handle_collision(self, group, other):
             if group == 'charater:food' and  (other.held_item == None or other.held_item == self):
                 pass
-            elif group == 'charater:food':
-                pass
     def draw(self):
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)

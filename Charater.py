@@ -171,9 +171,9 @@ class MoveRightUp:
     def enter(boy, e):
         boy.xdir, boy.ydir=1,1
         if right_down(e):
-            boy.action = 1, 1, 0
+            boy.action =  0
         elif up_down(e):
-             boy.action = 1, 1, 1
+             boy.action = 1
         
     @staticmethod
     def exit(boy, e):
