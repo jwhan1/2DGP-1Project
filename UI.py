@@ -18,6 +18,8 @@ class UI:
         self.elapsed_time = GAME_TIME_LIMIT
         self.point = 0# 게임 포인트
         self.image = load_image("image/timer.png")
+        self.chosen_item = 0 #아이템 선택
+        self.itemUI = load_image('image\itemUI.png')
     def update(self):
         self.elapsed_time = GAME_TIME_LIMIT-(time.time() - self.timer)
         if self.elapsed_time < 0:# 시간이 되면
@@ -30,6 +32,8 @@ class UI:
                                        (int)(360 * self.elapsed_time / GAME_TIME_LIMIT),590,
                                          (int)(720 * self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
         self.font.draw(20, 560, f'point:{self.point}', (0, 0, 255))
+        #아이템칸 표현 및 선택한 아이템 강조
+        self.itemUI.draw
     def handle_event(self, event):
         pass
 

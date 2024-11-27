@@ -33,9 +33,18 @@ class Charater:
         self.image = load_image(f'image/chief.png')
 
         self.state_machine.set_transitions(
-            {Idle: {right_down : Move, left_down : Move, up_down : Move, down_down: Move, press_e:Idle }, 
-            Move: { right_up: Idle, left_up : Idle, up_up : Idle, down_up: Idle, press_e:Move}}
-            )
+            {
+                Idle: {right_down: MoveRight, left_down: MoveLeft, left_up: MoveRight, right_up: MoveLeft, up_down: MoveUp, down_down: MoveDown, up_up: MoveDown, down_up: MoveUp, press_e:Idle},
+                MoveRight: {right_up: Idle, left_down: Idle, up_down: MoveRightUp, up_up: MoveRightDown, down_down: MoveRightDown, down_up: MoveRightUp, press_e:MoveRight},
+                MoveRightUp: {up_up: MoveRight, right_up: MoveUp, left_down: MoveUp, down_down: MoveRight, press_e:MoveRightUp},
+                MoveUp: {up_up: Idle, left_down: MoveLeftUp, down_down: Idle, right_down: MoveRightUp, left_up: MoveRightUp, right_up: MoveLeftUp, press_e:MoveUp},
+                MoveLeftUp: {right_down: MoveUp, down_down: MoveLeft, left_up: MoveUp, up_up: MoveLeft, press_e:MoveLeftUp},
+                MoveLeft: {left_up: Idle, up_down: MoveLeftUp, right_down: Idle, down_down: MoveLeftDown, up_up: MoveLeftDown, down_up: MoveLeftUp, press_e:MoveLeft},
+                MoveLeftDown: {left_up: MoveDown, down_up: MoveLeft, up_down: MoveLeft, right_down: MoveDown, press_e:MoveLeftDown},
+                MoveDown: {down_up: Idle, left_down: MoveLeftDown, up_down: Idle, right_down: MoveRightDown, left_up: MoveRightDown, right_up: MoveLeftDown, press_e:MoveDown},
+                MoveRightDown: {right_up: MoveDown, down_up: MoveRight, left_down: MoveDown, up_down: MoveRight, press_e:MoveRightDown}
+            }
+        )
         self.held_item = []#들고 있는 음식
         self.placeputup = []#접근 가능한 가구
         self.handrangefood = []#접근 가능한 음식
@@ -128,17 +137,230 @@ class Idle:
     def draw(boy):
             boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h )
 
-class Move:
+class MoveUp:
     @staticmethod
     def enter(boy, e):
+        boy.xdir, boy.ydir, boy.action = 0, 1, 1
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveRightUp:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir=1,1
         if right_down(e):
-            boy.xdir, boy.ydir, boy.action = 1, 0, 0
+            boy.action = 1, 1, 0
         elif up_down(e):
-            boy.xdir, boy.ydir, boy.action = 0, 1, 1
-        elif left_down(e):
-            boy.xdir, boy.ydir, boy.action = -1, 0, 2
+             boy.action = 1, 1, 1
+        
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveRight:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir, boy.action = 1, 0, 0
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveRightDown:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir=1,-1
+        if right_down(e):
+            boy.action = 0
         elif down_down(e):
-            boy.xdir, boy.ydir, boy.action = 0, -1, 3
+            boy.action = 3
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveDown:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir, boy.action = 0, -1, 3
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveLeftDown:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir=-1,-1
+        if left_down(e):
+            boy.action = 2
+        elif down_down(e):
+            boy.action = 3
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveLeft:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir, boy.action = -1, 0, 2
+    @staticmethod
+    def exit(boy, e):
+        if press_e(e):
+            pass
+
+    @staticmethod
+    def do(boy):
+        # boy.frame = (boy.frame + 1) % 8
+        # boy.x += boy.dir * 5
+
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
+        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
+        
+     
+    # 들고 있는 객체(held_item)의 위치를 업데이트
+        for o in boy.held_item:
+            o.x = boy.x + o.w * boy.held_item.index(o)
+            o.y = boy.y - boy.h / 2 - o.w / 2
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_composite_draw(int(boy.frame) * Charater.image_w, boy.action * Charater.image_h, Charater.image_w, Charater.image_h, 0, '', boy.x, boy.y, boy.w, boy.h)
+
+class MoveLeftUp:
+    @staticmethod
+    def enter(boy, e):
+        boy.xdir, boy.ydir=-1,1
+        if up_down(e):
+             boy.action = 1
+        elif left_down(e):
+             boy.action = 2
     @staticmethod
     def exit(boy, e):
         if press_e(e):
