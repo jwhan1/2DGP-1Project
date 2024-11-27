@@ -64,8 +64,9 @@ def init():
     for food in foods:
         Game_world.add_collision_pair('charater:food',None,food)
         Game_world.add_collision_pair('cookware:food',None,food)
+
     foodboxs=[FoodBox(Ingredient[i],i * 60 , 200, 60,60) for i in range(len(Ingredient))]
-    Game_world.add_objects(foods,1)
+    Game_world.add_objects(foodboxs,0)
 
 
 def finish():

@@ -87,15 +87,19 @@ class FoodBox:
         self.y = y
         self.w = w
         self.h = h
-        self.image = load_image(f'image/food/{what}.png')
+        self.image = load_image(f'image/furniture/food_box.png')
         self.imgW = self.image.w
         self.imgH = self.image.h
 
         self.food = what#음식의 종류
         self.held_item = []#보관중인 음식
-        self.held_item.append(Foods(what,self.x,self.y))
+        food=Foods(what,self.x,self.y)
+        self.held_item.append(food)
+        Game_world.add_object(food,1)
+        Game_world.add_collision_pair('charater:food',None,food)
+        Game_world.add_collision_pair('cookware:food',None,food)
     def update(self):
-        if self.held_item.index<=0:
+        if len(self.held_item) <= 0:
             self.held_item.append(Foods(self.food ,self.x,self.y))
     def draw(self):
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
