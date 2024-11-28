@@ -21,7 +21,7 @@ class Foods:
         self.remaining_time = 180  # 남은 조리 시간
 
         self.held_by = None  # 현재 들고 있는 캐릭터 (없으면 None)
-        self.inside_cookware = None #현재 들어간 조리도구
+        self.inside_cookware = None #조리중인 조리도구(다른 도구에 들어갈 때 갱신)
         self.image = load_image(f'image/food/{what}.png')
 
         self.imgW, self.imgH = self.image.w, self.image.h # 이미지 크기
@@ -40,6 +40,13 @@ class Foods:
         draw_rectangle(*self.get_bb())
     def handle_event(self, event):
         pass
+    def move_to(self,held):
+        if self.held_by:
+            self.held_by.remove_food(self)
+        self.w, self.h = 50, 50
+        self.x = held.x
+        self.y = held.y
+        held.add_food(self)
 #충돌
     def get_bb(self):
        return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2

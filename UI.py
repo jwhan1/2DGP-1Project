@@ -6,34 +6,24 @@ import time
 GAME_TIME_LIMIT = 180
 
 
-
+#UI총괄 클래스
 class UI:
     
     def __init__(self):
-        self.font = load_font('ENCR10B.TTF', 40)
         self.stack=[]#
-        self.cooking=[]#
         self.result=[]#
-        self.timer = time.time()# 남은 게임 제한시간
-        self.elapsed_time = GAME_TIME_LIMIT
-        self.point = 0# 게임 포인트
-        self.image = load_image("image/timer.png")
-        self.chosen_item = 0 #아이템 선택
-        self.itemUI = load_image('image\itemUI.png')
+
+        self.timer = Timer()
+        self.Point = Point()
+        self.slot = Item_Slot()
     def update(self):
-        self.elapsed_time = GAME_TIME_LIMIT-(time.time() - self.timer)
-        if self.elapsed_time < 0:# 시간이 되면
-            pass#게임 결과창으로 넘어간다
-        
+        self.timer.do()
+        self.Point.do()
+        self.slot.do()
     def draw(self):
-        #타이머, 점수 표시
-        #print(f'time = {int(self.elapsed_time)}   /{self.point = }')
-        self.image.clip_composite_draw(0, 0, self.image.w , self.image.h, 0, '', 
-                                       (int)(360 * self.elapsed_time / GAME_TIME_LIMIT),590,
-                                         (int)(720 * self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
-        self.font.draw(20, 560, f'point:{self.point}', (0, 0, 255))
-        #아이템칸 표현 및 선택한 아이템 강조
-        self.itemUI.draw
+        self.timer.draw()
+        self.Point.draw()
+        self.slot.draw()
     def handle_event(self, event):
         pass
 
@@ -43,4 +33,47 @@ class UI:
     
     def handle_collision(self, group, other):
             pass
+    def add_point(self,name):
+        #주문 목록에 있을 경우 점수 상승
+        self.Point.point==100
 
+class Timer:
+    
+    def __init__(self):
+        self.timer = time.time()# 남은 게임 제한시간
+        self.elapsed_time = GAME_TIME_LIMIT
+        self.image = load_image("image/timer.png")
+
+    def do(self):
+        self.elapsed_time = GAME_TIME_LIMIT-(time.time() - self.timer)
+        if self.elapsed_time < 0:# 시간이 되면
+            pass#게임 결과창으로 넘어간다
+
+    def draw(self):
+        self.image.clip_composite_draw(0, 0, self.image.w , self.image.h, 0, '', 
+                                       (int)(360 * self.elapsed_time / GAME_TIME_LIMIT),590,
+                                         (int)(720 * self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
+
+
+class Point:
+    def __init__(self):
+        self.font = load_font('ENCR10B.TTF', 40)
+        self.point = 0# 게임 포인트
+        
+
+    def do(self):
+        pass
+    def draw(self): 
+     self.font.draw(20, 560, f'point:{self.point}', (0, 0, 255))
+
+class Item_Slot:
+    def __init__(self):
+        
+        self.chosen_item = 0 #아이템 선택
+        self.itemUI = load_image('image\itemUI.png')
+        
+
+    def do(self):
+         pass
+    def draw(self): 
+     pass

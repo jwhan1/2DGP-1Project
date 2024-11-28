@@ -58,14 +58,9 @@ def init():
     Game_world.add_objects(cookwares,0)
     for cookware in cookwares:
         Game_world.add_collision_pair('charater:cookware',None,cookware)  
-    # 음식
-    foods = [Foods(Ingredient[i], i * 100 + 50, 100) for i in range(len(Ingredient))]#음식들
-    Game_world.add_objects(foods,1)
-    for food in foods:
-        Game_world.add_collision_pair('charater:food',None,food)
-        Game_world.add_collision_pair('cookware:food',None,food)
+    
 
-    foodboxs=[FoodBox(Ingredient[i],i * 60 , 200, 60,60) for i in range(len(Ingredient))]
+    foodboxs=[FoodBox(Ingredient[i], i * 60 , 200, 60,60) for i in range(len(Ingredient))]
     Game_world.add_objects(foodboxs,0)
 
 
@@ -92,4 +87,3 @@ def resume():
     #멈춘 시간만큼 UI시간 수정
     Ui.timer = Ui.timer + framework.frame_time - pausetime
     pass
-
