@@ -165,9 +165,9 @@ class MoveUp:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -199,9 +199,9 @@ class MoveRightUp:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -228,9 +228,9 @@ class MoveRight:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -261,9 +261,9 @@ class MoveRightDown:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -290,9 +290,9 @@ class MoveDown:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -323,9 +323,9 @@ class MoveLeftDown:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -352,9 +352,9 @@ class MoveLeft:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -385,9 +385,9 @@ class MoveLeftUp:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time < 650:
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 100 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < 600:
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      

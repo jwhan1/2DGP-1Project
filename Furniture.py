@@ -91,7 +91,7 @@ class Furniture:
         #점수를 주고 음식을 제거
         print('on')
         play_mode.Ui.Point.point+=100
-        play_mode.Ui.add(food.name)
+        play_mode.Ui.add_point(food.name)
         Game_world.remove_collision_object(food)
         Game_world.remove_object(food)
         del food
@@ -138,3 +138,4 @@ class FoodBox:
         Game_world.add_collision_pair('cookware:food',None,food)
     def remove_food(self, food):
         self.held_item.remove(food)
+

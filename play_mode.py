@@ -4,8 +4,8 @@ import Game_world
 
 from Background import Background
 from UI import UI
-from Foods import Foods
 from Furniture import Furniture, Cookware, FoodBox
+from Wall import Wall
 from Charater import Charater
 import pause_mode
 
@@ -34,7 +34,7 @@ def handle_events():
             charater.handle_event(event)
 
 def init():
-    global Ui, charater, foods, counter, cookwares#충돌하는 물체만
+    global Ui, charater, foods, counter, cookwares, wall#충돌하는 물체만
 
     background = Background()
     Game_world.add_object(background,0)
@@ -45,6 +45,10 @@ def init():
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
+    wall=Wall(0,800,100,0)
+    Game_world.add_object(counter,0)
+    Game_world.add_collision_pair('charater:wall',None,wall)
+
     #       캐릭터,조리도구,음식
     # 플레이어 캐릭터  
     charater = Charater()
@@ -52,14 +56,14 @@ def init():
     Game_world.add_collision_pair('charater:cookware',charater,None)
     Game_world.add_collision_pair('charater:counter',charater,None)
     Game_world.add_collision_pair('charater:food',charater,None)
-
+    Game_world.add_collision_pair('charater:wall',charater,None)
     # 조리도구
     cookwares = [Cookware(Cookwares[i],30, i * 60 + 300, 60,60) for i in range(len(Cookwares))]
     Game_world.add_objects(cookwares,0)
     for cookware in cookwares:
         Game_world.add_collision_pair('charater:cookware',None,cookware)  
     
-
+    #음식
     foodboxs=[FoodBox(Ingredient[i], i * 60 , 200, 60,60) for i in range(len(Ingredient))]
     Game_world.add_objects(foodboxs,0)
 

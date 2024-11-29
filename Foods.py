@@ -36,7 +36,7 @@ class Foods:
             self.state = "cooked"
             self.remaining_time = 0
     def draw(self):
-        self.state_machine.draw()
+        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
         draw_rectangle(*self.get_bb())
     def handle_event(self, event):
         pass
@@ -53,5 +53,8 @@ class Foods:
     def handle_collision(self, group, other):
             if group == 'charater:food' and  (other.held_item == None or other.held_item == self):
                 pass
-    def draw(self):
-        self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
+    
+
+
+
+

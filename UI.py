@@ -16,14 +16,17 @@ class UI:
         self.timer = Timer()
         self.Point = Point()
         self.slot = Item_Slot()
+        self.order = Order()
     def update(self):
         self.timer.do()
         self.Point.do()
         self.slot.do()
+        self.order.do()
     def draw(self):
         self.timer.draw()
         self.Point.draw()
         self.slot.draw()
+        self.order.draw()
     def handle_event(self, event):
         pass
 
@@ -71,8 +74,17 @@ class Item_Slot:
         
         self.chosen_item = 0 #아이템 선택
         self.itemUI = load_image('image\itemUI.png')
-        
+        self.imgw=self.itemUI.w
+        self.imgh=self.itemUI.h
+    def do(self):
+         pass
+    def draw(self): 
+        self.itemUI.clip_draw(0,0,self.imgw,self.imgh,100,100)
 
+
+class Order:
+    def __init__(self):
+        pass
     def do(self):
          pass
     def draw(self): 
