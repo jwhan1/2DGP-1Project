@@ -79,27 +79,48 @@ class Charater:
         return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
 
     def handle_collision(self, group, other):
-            if group == 'charater:food':# 반경에 들어온 음식 
-                food = other
-                self.handrangefood.append(food)#접근 가능한 음식
-            elif group == 'charater:counter' or group == 'charater:cookware':
-                place = other
-                self.placeputup.append(place) #접근 가능한 장소
-            elif group == 'charater:wall':#벽
-                print('aaaaa')
-                if self.x+self.w/2 <= other.x-other.w/2:
-                    self.xdir=0
-                    pass
-                elif self.x-self.w/2 >= other.x+other.w/2:
-                    self.xdir=0
-                    pass
-                elif self.y + self.h/2 <= other.y - other.h/2:
-                    self.ydir=0
-                    pass
-                elif self.y - self.h/2 >= other.y + other.h/2:
-                    self.ydir=0
+            match  group:
+                case 'charater:food':# 반경에 들어온 음식 
+                    food = other
+                    self.handrangefood.append(food)#접근 가능한 음식
+                case 'charater:counter':
+                    place = other
+                    self.placeputup.append(place) #접근 가능한 장소
+                case 'charater:cookware':
+                    place = other
+                    self.placeputup.append(place) #접근 가능한 장소
+                case 'charater:wall':#벽 부딪힘
+                
+                    if self.x - self.w / 2 < other.x + other.w / 2 and self.xdir < 0:  # 왼쪽 막힘
+                        if  other.y + other.h / 2 - self.y - self.h / 2 < other.x + other.w / 2-self.x - self.w / 2 and self.ydir < 0:  # 아래 막힘
+                            self.ydir = 0
+                            self.y += 1  
+                        elif self.y + self.h / 2 - other.y - other.h / 2 < other.x + other.w / 2-self.x - self.w / 2 and self.ydir > 0:  # 위 막힘
+                            self.ydir = 0
+                            self.y -= 1
+                        else:
+                            self.xdir = 0
+                            self.x += 1  
+                    elif self.x + self.w / 2 > other.x - other.w / 2 and self.xdir > 0:  # 오른쪽 막힘
+                        if  other.y + other.h / 2 - self.y - self.h / 2 < self.x + self.w / 2 - other.x - other.w / 2 and self.ydir < 0:  # 아래 막힘
+                            self.ydir = 0
+                            self.y  += 1   
+                        elif self.y + self.h / 2 - other.y - other.h / 2 < self.x + self.w / 2 - other.x - other.w / 2 and self.ydir > 0:  # 위 막힘
+                            self.ydir = 0
+                            self.y  -= 1 
+                        else:
+                            self.xdir = 0
+                            self.x -= 1  
+                    elif self.y - self.h / 2 < other.y + other.h / 2 and self.ydir < 0:  # 아래 막힘
+                        print('???')
+                        self.ydir = 0
+                        self.y += 1  
+
+                    elif self.y + self.h / 2 > other.y - other.h / 2 and self.ydir > 0:  # 위 막힘
+                        print('?')
+                        self.ydir = 0
+                        self.y -= 1
                     
-                    pass
                 
     def add_food(self, food):
         food.held_by = self
