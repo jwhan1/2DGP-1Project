@@ -34,7 +34,7 @@ def handle_events():
             charater.handle_event(event)
 
 def init():
-    global Ui, charater, foods, counter, cookwares, wall#충돌하는 물체만
+    global Ui, charater, foods, counter, cookwares, walls#충돌하는 물체만
 
     background = Background()
     Game_world.add_object(background,0)
@@ -45,9 +45,11 @@ def init():
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
-    wall = Wall(0,0,800,100)
-    Game_world.add_object(wall,0)
-    Game_world.add_collision_pair('charater:wall',None,wall)
+    walls = [Wall(0,0,800,100)]
+    walls.append(Wall(600,100,700,600))
+    Game_world.add_objects(walls,0)
+    for wall in walls:
+        Game_world.add_collision_pair('charater:wall',None,wall)
 
     #       캐릭터,조리도구,음식
     # 플레이어 캐릭터  

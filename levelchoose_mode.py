@@ -14,10 +14,10 @@ def handle_events():
            
 
 def init():
-    global image,imageui
+    global image,imageui,button
     image = load_image('image/title.png')
     imageui = load_image('image\selectlevelUI.png')
-
+    
 
 def finish():
     pass
@@ -26,8 +26,8 @@ def update():
     pass
 def draw():
     clear_canvas()
-    image.clip_draw(0, 0, image.w, image.h, 400, 300, 800, 600)
-    imageui.clip_draw(0, 0, image.w, image.h, 400, 300, 400, 100)
+    image.clip_draw(0, 0, image.w, image.h, get_canvas_width()/2, get_canvas_height()/2,get_canvas_width(), get_canvas_height())
+    imageui.clip_draw(0, 0, image.w, image.h, get_canvas_width()/2, get_canvas_height()/2, 400, 300)
     update_canvas()
 
 def pause():
