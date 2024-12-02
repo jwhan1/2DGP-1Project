@@ -2,7 +2,7 @@ from pico2d import draw_rectangle
 
 
 class Wall:
-    def __init__(self, left, right, top, bottom):
+    def __init__(self, left, bottom, right, top):
         self.x=(left + right) / 2
         self.y=(top + bottom) / 2
         self.w = right - left

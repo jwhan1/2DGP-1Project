@@ -85,6 +85,22 @@ class Charater:
             elif group == 'charater:counter' or group == 'charater:cookware':
                 place = other
                 self.placeputup.append(place) #접근 가능한 장소
+            elif group == 'charater:wall':#벽
+                print('aaaaa')
+                if self.x+self.w/2 <= other.x-other.w/2:
+                    self.xdir=0
+                    pass
+                elif self.x-self.w/2 >= other.x+other.w/2:
+                    self.xdir=0
+                    pass
+                elif self.y + self.h/2 <= other.y - other.h/2:
+                    self.ydir=0
+                    pass
+                elif self.y - self.h/2 >= other.y + other.h/2:
+                    self.ydir=0
+                    
+                    pass
+                
     def add_food(self, food):
         food.held_by = self
         self.held_item.append(food)
@@ -165,9 +181,8 @@ class MoveUp:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
-            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
+        
+        if boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -199,9 +214,9 @@ class MoveRightUp:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
+        if boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
+        if boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -228,10 +243,8 @@ class MoveRight:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
+        if boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
-            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
     # 들고 있는 객체(held_item)의 위치를 업데이트
@@ -261,9 +274,9 @@ class MoveRightDown:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
+        if  boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time:
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -290,9 +303,7 @@ class MoveDown:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
-            boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time:
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -323,9 +334,9 @@ class MoveLeftDown:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time:
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
+        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time:
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
@@ -352,10 +363,8 @@ class MoveLeft:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time:
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
-            boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      
     # 들고 있는 객체(held_item)의 위치를 업데이트
@@ -385,9 +394,9 @@ class MoveLeftUp:
         # boy.x += boy.dir * 5
 
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * framework.frame_time) % 8
-        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time and boy.x + boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time <  get_canvas_width():
+        if 0 < boy.x - boy.w / 2 + boy.xdir * RUN_SPEED_PPS * framework.frame_time:
             boy.x += boy.xdir * RUN_SPEED_PPS * framework.frame_time
-        if 0 < boy.y - boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time and boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
+        if boy.y + boy.h/2 + boy.ydir * RUN_SPEED_PPS * framework.frame_time < get_canvas_height():
             boy.y += boy.ydir * RUN_SPEED_PPS * framework.frame_time
         
      

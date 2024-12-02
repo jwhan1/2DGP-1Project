@@ -45,8 +45,8 @@ def init():
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
-    wall=Wall(0,800,100,0)
-    Game_world.add_object(counter,0)
+    wall = Wall(0,0,800,100)
+    Game_world.add_object(wall,0)
     Game_world.add_collision_pair('charater:wall',None,wall)
 
     #       캐릭터,조리도구,음식
