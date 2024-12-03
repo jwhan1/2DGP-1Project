@@ -66,11 +66,11 @@ class Cookware:
 
 
 class Furniture:
-    def __init__(self, what, x, y,w,h):
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+    def __init__(self, what, left, bottom,right,top):
+        self.x = (left+right)/2
+        self.y = (bottom+top)/2
+        self.w = right-left
+        self.h = top-bottom
         self.image = load_image(f'image/furniture/{what}.png')
         self.imgW = self.image.w
         self.imgH = self.image.h

@@ -8,7 +8,7 @@ from Furniture import Furniture, Cookware, FoodBox
 from Wall import Wall
 from Charater import Charater
 import pause_mode
-
+import Game_data
 
 Ingredient = ['fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi',
               'apple_green','apple_red','apple_yellow','avocado_whole',
@@ -41,12 +41,14 @@ def init():
     Ui = UI()
     Game_world.add_object(Ui,2)
 
-    counter = Furniture('counter', 650, 200,100,200)#음식 투입구
+    counter = Furniture('counter', get_canvas_width()*4/5, get_canvas_height()/3, get_canvas_width()*15/16, get_canvas_height()*2/3)#음식 투입구
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
 
-    walls = [Wall(0,0,800,100)]
-    walls.append(Wall(600,100,700,600))
+    walls = [Wall(0,0,get_canvas_width(),100)]
+    walls.append(Wall(get_canvas_width()*4/5,100, (get_canvas_width()*7)/8,get_canvas_height()/3))
+    walls.append(Wall(get_canvas_width()*13/15,get_canvas_height()/4, get_canvas_width()*15/16,get_canvas_height()*3/4))
+    walls.append(Wall(get_canvas_width()*4/5,get_canvas_height()*2/3, get_canvas_width()*7/8,get_canvas_height()))
     Game_world.add_objects(walls,0)
     for wall in walls:
         Game_world.add_collision_pair('charater:wall',None,wall)

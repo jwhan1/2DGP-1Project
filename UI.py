@@ -2,7 +2,8 @@ from pico2d import *
 import framework
 import time
 
-
+import result_mode
+import Game_data
 GAME_TIME_LIMIT = 180
 
 
@@ -15,17 +16,14 @@ class UI:
 
         self.timer = Timer()
         self.Point = Point()
-        self.slot = Item_Slot()
         self.order = Order()
     def update(self):
         self.timer.do()
         self.Point.do()
-        self.slot.do()
         self.order.do()
     def draw(self):
         self.timer.draw()
         self.Point.draw()
-        self.slot.draw()
         self.order.draw()
     def handle_event(self, event):
         pass
@@ -50,12 +48,15 @@ class Timer:
     def do(self):
         self.elapsed_time = GAME_TIME_LIMIT-(time.time() - self.timer)
         if self.elapsed_time < 0:# 시간이 되면
-            pass#게임 결과창으로 넘어간다
+            Game_data.Game_point.append(self.Point.point)
+            framework.change_mode(result_mode)
+            
+            
 
     def draw(self):
         self.image.clip_composite_draw(0, 0, self.image.w , self.image.h, 0, '', 
-                                       (int)(360 * self.elapsed_time / GAME_TIME_LIMIT),590,
-                                         (int)(720 * self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
+                                       (int)(get_canvas_width()/2 * self.elapsed_time / GAME_TIME_LIMIT),get_canvas_height()-10,
+                                         (int)(get_canvas_width()* self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
 
 
 class Point:
@@ -67,19 +68,7 @@ class Point:
     def do(self):
         pass
     def draw(self): 
-     self.font.draw(20, 560, f'point:{self.point}', (0, 0, 255))
-
-class Item_Slot:
-    def __init__(self):
-        
-        self.chosen_item = 0 #아이템 선택
-        self.itemUI = load_image('image\itemUI.png')
-        self.imgw=self.itemUI.w
-        self.imgh=self.itemUI.h
-    def do(self):
-         pass
-    def draw(self): 
-        self.itemUI.clip_draw(0,0,self.imgw,self.imgh,100,100)
+     self.font.draw(20, get_canvas_height()-40, f'point:{self.point}', (0, 0, 255))
 
 
 class Order:

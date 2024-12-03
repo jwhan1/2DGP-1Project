@@ -1,19 +1,23 @@
-from pico2d import load_image
+from pico2d import load_image,get_canvas_width,get_canvas_height
 
 
 class Background:
     def __init__(self):
-        self.background = GameObject('image/background.png',400,300,800,600)
+        self.background = GameObject('image/background.png',get_canvas_width()/2,get_canvas_height()/2,get_canvas_width(),get_canvas_height())
 
-        self.itemUI = GameObject('image/itemUI.png',750,50,60,60)
+        self.itemUI = load_image('image/foodUI.png')
     def update(self):
         pass
 
     def draw(self):
         self.background.image.clip_draw(0, 0, self.background.image.w, self.background.image.w, self.background.x, self.background.y, self.background.w, self.background.h)
-        #self.floor.image.clip_draw(0, 0, self.floor.image.w, self.floor.image.h, self.floor.x, self.floor.y, self.floor.w, self.floor.h)
-        #self.itemUI.image.clip_draw(0, 0, self.itemUI.image.w, self.itemUI.image.h, self.itemUI.x, self.itemUI.y, self.itemUI.w, self.itemUI.h)
-
+        
+        
+        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-250, 50, 50, 50)
+        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-200, 50, 50, 50)
+        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-150, 50, 50, 50)
+        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-100, 50, 50, 50)
+        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-50, 50, 50, 50)
 
     def handle_event(self, event):
         pass

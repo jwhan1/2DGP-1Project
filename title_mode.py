@@ -12,15 +12,13 @@ def handle_events():
         elif event.type == SDL_MOUSEBUTTONDOWN :
             for button in buttons:
                 button.handle_event(event)
-        elif event.type == SDL_KEYDOWN :
-            framework.change_mode(levelchoose_mode)
            
 
 def init():
     global image, buttons
     image = load_image('image/title.png')
-    buttons=[button('start',get_canvas_width() / 2,get_canvas_height() / 2)]
-    Game_world.add_objects(buttons,0)
+    buttons=[button('start',get_canvas_width() / 2,get_canvas_height() / 3)]
+    Game_world.add_objects(buttons,1)
 
 
 
@@ -28,12 +26,12 @@ def finish():
     Game_world.clear()
 
 def update():
-    pass
+    Game_world.update()
+    
 def draw():
     clear_canvas()
     image.clip_draw(0, 0, image.w, image.h, get_canvas_width() / 2, get_canvas_height() / 2, get_canvas_width(), get_canvas_height())
-    Game_world.update()
-    Game_world.handle_collision()
+    Game_world.render()
     update_canvas()
 
 def pause():
