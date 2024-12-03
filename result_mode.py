@@ -1,4 +1,5 @@
 from pico2d import *
+from Result import Result
 import framework
 import Game_world
 
@@ -13,7 +14,7 @@ def init():
     global image
     image = load_image('image/title.png')
     #결과창
-
+    result=Result()
 
 def finish():
     Game_world.clear()
