@@ -34,14 +34,14 @@ class Charater:
 
         self.state_machine.set_transitions(
             {
-                Idle: {right_down: MoveRight, left_down: MoveLeft, left_up: MoveRight, right_up: MoveLeft, up_down: MoveUp, down_down: MoveDown, up_up: MoveDown, down_up: MoveUp, press_e:Idle, press_r:Idle},
-                MoveRight: {right_up: Idle, left_down: Idle, up_down: MoveRightUp, up_up: MoveRightDown, down_down: MoveRightDown, down_up: MoveRightUp, press_e:MoveRight, press_r:MoveRight},
+                Idle: {right_down: MoveRight, left_down: MoveLeft, left_up: MoveRight, right_up: MoveLeft, up_down: MoveUp, down_down: MoveDown, up_up: MoveDown, down_up: MoveUp, press_e:Idle, press_r:Idle, press_f:Idle},
+                MoveRight: {right_up: Idle, left_down: Idle, up_down: MoveRightUp, up_up: MoveRightDown, down_down: MoveRightDown, down_up: MoveRightUp, press_e:MoveRight, press_r:MoveRight, press_f:MoveRight},
                 MoveRightUp: {up_up: MoveRight, right_up: MoveUp, left_down: MoveUp, down_down: MoveRight, press_e:MoveRightUp},
-                MoveUp: {up_up: Idle, left_down: MoveLeftUp, down_down: Idle, right_down: MoveRightUp, left_up: MoveRightUp, right_up: MoveLeftUp, press_e:MoveUp, press_r:MoveUp},
+                MoveUp: {up_up: Idle, left_down: MoveLeftUp, down_down: Idle, right_down: MoveRightUp, left_up: MoveRightUp, right_up: MoveLeftUp, press_e:MoveUp, press_r:MoveUp, press_f:MoveUp},
                 MoveLeftUp: {right_down: MoveUp, down_down: MoveLeft, left_up: MoveUp, up_up: MoveLeft, press_e:MoveLeftUp},
-                MoveLeft: {left_up: Idle, up_down: MoveLeftUp, right_down: Idle, down_down: MoveLeftDown, up_up: MoveLeftDown, down_up: MoveLeftUp, press_e:MoveLeft, press_r:MoveLeft},
+                MoveLeft: {left_up: Idle, up_down: MoveLeftUp, right_down: Idle, down_down: MoveLeftDown, up_up: MoveLeftDown, down_up: MoveLeftUp, press_e:MoveLeft, press_r:MoveLeft, press_f:MoveLeft},
                 MoveLeftDown: {left_up: MoveDown, down_up: MoveLeft, up_down: MoveLeft, right_down: MoveDown, press_e:MoveLeftDown},
-                MoveDown: {down_up: Idle, left_down: MoveLeftDown, up_down: Idle, right_down: MoveRightDown, left_up: MoveRightDown, right_up: MoveLeftDown, press_e:MoveDown, press_r:MoveDown},
+                MoveDown: {down_up: Idle, left_down: MoveLeftDown, up_down: Idle, right_down: MoveRightDown, left_up: MoveRightDown, right_up: MoveLeftDown, press_e:MoveDown, press_r:MoveDown, press_f:MoveDown},
                 MoveRightDown: {right_up: MoveDown, down_up: MoveRight, left_down: MoveDown, up_down: MoveRight, press_e:MoveRightDown}
             }
         )
@@ -69,7 +69,7 @@ class Charater:
         self.state_machine.draw()
         draw_rectangle(*self.get_bb())
         #선택한 아이템 강조
-        if self.emphatic_food >= 0 and self.emphatic_food < len(self.held_item):
+        if self.emphatic_food >= 0 and len(self.held_item) > 0 and self.emphatic_food < len(self.held_item):
             draw_rectangle(*self.held_item[self.emphatic_food].get_bb())
 
 # 입력
@@ -123,13 +123,13 @@ class Charater:
                 
     def add_food(self, food):
         food.held_by = self
-        self.held_item.append(food)
+        if not food in self.held_item:self.held_item.append(food)
         food.w = 50
         food.h = 50
         food.x = get_canvas_width() - 50 * (self.held_item.index(food) + 1)
         food.y = 50
     def remove_food(self,food):
-        self.held_item.remove(food)
+        if food in self.held_item: self.held_item.remove(food)
         
         if self.emphatic_food>=len(self.held_item):
             self.emphatic_food=len(self.held_item)-1
@@ -157,7 +157,7 @@ class Idle:
     @staticmethod
     def exit(boy,e):
         if press_e(e) :
-            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+            if  boy.grab and len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
                 place = None
                 for o in boy.placeputup:
                     if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
@@ -165,9 +165,16 @@ class Idle:
 
                 if place != None:
                     boy.held_item[boy.emphatic_food].move_to(place)
+                    #음식들의 위치를 잡는다
+                    index=0
+                    for held_food in boy.held_item:
+                        held_food.x, held_food.y = get_canvas_width() - 50 * (index + 1), 50
+                        index = index + 1
+                        
+
                 else: print('놓을 곳이 없다.')
 
-            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+            elif not boy.grab and len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
                 target = None # 집을 음식
                 #잡을 음식 고르기
                 for o in boy.handrangefood:
@@ -177,6 +184,10 @@ class Idle:
                 if target != None and not target in boy.held_item:# 잡기
                     target.move_to(boy)
                 else: print('주변에 음식이 없음')
+        elif press_r(e):
+            boy.grab = not boy.grab
+        elif press_f(e):
+            if len(boy.held_item) > 0: boy.emphatic_food = (boy.emphatic_food + 1) % len(boy.held_item)
     @staticmethod
     def do(boy):
         if boy.action != 5:
