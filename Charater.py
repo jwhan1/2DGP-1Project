@@ -34,17 +34,18 @@ class Charater:
 
         self.state_machine.set_transitions(
             {
-                Idle: {right_down: MoveRight, left_down: MoveLeft, left_up: MoveRight, right_up: MoveLeft, up_down: MoveUp, down_down: MoveDown, up_up: MoveDown, down_up: MoveUp, press_e:Idle},
-                MoveRight: {right_up: Idle, left_down: Idle, up_down: MoveRightUp, up_up: MoveRightDown, down_down: MoveRightDown, down_up: MoveRightUp, press_e:MoveRight},
+                Idle: {right_down: MoveRight, left_down: MoveLeft, left_up: MoveRight, right_up: MoveLeft, up_down: MoveUp, down_down: MoveDown, up_up: MoveDown, down_up: MoveUp, press_e:Idle, press_r:Idle},
+                MoveRight: {right_up: Idle, left_down: Idle, up_down: MoveRightUp, up_up: MoveRightDown, down_down: MoveRightDown, down_up: MoveRightUp, press_e:MoveRight, press_r:MoveRight},
                 MoveRightUp: {up_up: MoveRight, right_up: MoveUp, left_down: MoveUp, down_down: MoveRight, press_e:MoveRightUp},
-                MoveUp: {up_up: Idle, left_down: MoveLeftUp, down_down: Idle, right_down: MoveRightUp, left_up: MoveRightUp, right_up: MoveLeftUp, press_e:MoveUp},
+                MoveUp: {up_up: Idle, left_down: MoveLeftUp, down_down: Idle, right_down: MoveRightUp, left_up: MoveRightUp, right_up: MoveLeftUp, press_e:MoveUp, press_r:MoveUp},
                 MoveLeftUp: {right_down: MoveUp, down_down: MoveLeft, left_up: MoveUp, up_up: MoveLeft, press_e:MoveLeftUp},
-                MoveLeft: {left_up: Idle, up_down: MoveLeftUp, right_down: Idle, down_down: MoveLeftDown, up_up: MoveLeftDown, down_up: MoveLeftUp, press_e:MoveLeft},
+                MoveLeft: {left_up: Idle, up_down: MoveLeftUp, right_down: Idle, down_down: MoveLeftDown, up_up: MoveLeftDown, down_up: MoveLeftUp, press_e:MoveLeft, press_r:MoveLeft},
                 MoveLeftDown: {left_up: MoveDown, down_up: MoveLeft, up_down: MoveLeft, right_down: MoveDown, press_e:MoveLeftDown},
-                MoveDown: {down_up: Idle, left_down: MoveLeftDown, up_down: Idle, right_down: MoveRightDown, left_up: MoveRightDown, right_up: MoveLeftDown, press_e:MoveDown},
+                MoveDown: {down_up: Idle, left_down: MoveLeftDown, up_down: Idle, right_down: MoveRightDown, left_up: MoveRightDown, right_up: MoveLeftDown, press_e:MoveDown, press_r:MoveDown},
                 MoveRightDown: {right_up: MoveDown, down_up: MoveRight, left_down: MoveDown, up_down: MoveRight, press_e:MoveRightDown}
             }
         )
+        self.grab = True
         self.held_item = []#들고 있는 음식
         self.emphatic_food = 0
 

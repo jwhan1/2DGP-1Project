@@ -3,7 +3,7 @@ import framework
 import Game_world
 
 from Background import Background
-from UI import UI
+from UI import UI, Order
 from Furniture import Furniture, Cookware, FoodBox
 from Wall import Wall
 from Charater import Charater
@@ -25,8 +25,9 @@ def handle_events():
             charater.handle_event(event)
 
 def init():
-    global Ui, charater, foods, counter, cookwares, walls#충돌하는 물체만
+    global Ui, charater, foods, counter, cookwares, orders, walls#충돌하는 물체만
 
+    
     background = Background()
     Game_world.add_object(background,0)
     Ui = UI()
@@ -35,6 +36,8 @@ def init():
     counter = Furniture('counter', get_canvas_width()*4/5, get_canvas_height()/3, get_canvas_width()*15/16, get_canvas_height()*2/3)#음식 투입구
     Game_world.add_object(counter,0)
     Game_world.add_collision_pair('charater:counter',None,counter)
+
+
 
     walls = [Wall(0,0,get_canvas_width(),100)]
     walls.append(Wall(get_canvas_width()*4/5,100, (get_canvas_width()*7)/8,get_canvas_height()/3))

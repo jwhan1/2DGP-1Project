@@ -4,7 +4,7 @@ import play_mode
 import Game_world
 import framework
 from Foods import Foods
-from Game_data import  what_input
+from Game_data import  what_input, Raw_food, cooking
 
 class Cookware:
     def __init__(self, what, x, y,w,h):
@@ -12,7 +12,7 @@ class Cookware:
         self.y = y
         self.w = w
         self.h = h
-        self.max_capacity = 5  # 최대 조리 가능 음식 수
+        self.max_capacity = 2  # 최대 조리 가능 음식 수
         self.held_item = []  # 보괸 중인 음식 목록
         
         self.timer = framework.frame_time # 요리 시작시간
@@ -24,17 +24,22 @@ class Cookware:
 
     def update(self):
         #음식 조리
-        if len(self.held_item) > 0:
-            self.held_item[0].state = "cooking"
-            if self.held_item[0].inside_cookware != self.ware:
-                self.held_item[0].inside_cookware = self.ware
-                self.timer = time.time()#조리 시작
-                self.held_item[0].remaining_time = self.held_item[0].cook_time#조리 시간
+        for ingredient in self.held_item:
+            ingredient.state = "cooking"
+            if ingredient.inside_cookware != self.ware:
+                ingredient.inside_cookware = self.ware
+                ingredient.remaining_time = ingredient.cook_time#조리 시간
+            
 
-            self.held_item[0].remaining_time = self.held_item[0].cook_time - (time.time() - self.timer)
+            ingredient.remaining_time = ingredient.cook_time - (time.time() - self.timer)
 
-            if self.held_item[0].remaining_time < 0:# 시간이 되면
-                self.held_item[0].state="cooked"#조리된다
+            if ingredient.remaining_time < 0 and not ingredient.name in Raw_food:# 시간이 되면
+                ingredient.state = "cooked"#조리된다
+                ingredient.name = cooking[ingredient.name]
+                ingredient.image = load_image(f'image/food/{ingredient.name}.png')
+                        
+    
+                
 
         
     def draw(self):
@@ -90,13 +95,19 @@ class Furniture:
             pass
     def add_food(self, food):
         #점수를 주고 음식을 제거
-        play_mode.Ui.Point.point+=100
+        order=False
+        for i in play_mode.Ui.order_list:
+            if food.name == i.food:
+                play_mode.Ui.Point.point+=i.point
+                play_mode.Ui.order_list.remove(i)
+                order=True
+        if not order:
+            play_mode.Ui.Point.point+=50
         play_mode.Ui.add_point(food.name)
         Game_world.remove_collision_object(food)
         Game_world.remove_object(food)
         what_input.append(food.name)
         del food
-        pass
 
 class FoodBox:
     def __init__(self, what, x, y,w,h):

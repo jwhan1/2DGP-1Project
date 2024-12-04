@@ -17,8 +17,9 @@ class Foods:
         self.w, self.h = 50, 50 # 크기
         self.name = what#음식 이름
         self.state = "raw"  # raw -> cooking -> cooked
-        self.cook_time = 180  # 조리 완료 시간 (초)
-        self.remaining_time = 180  # 남은 조리 시간
+        self.timer = time.time()
+        self.cook_time = 8  # 조리 완료 시간 (초)
+        self.remaining_time = 8  # 남은 조리 시간
 
         self.held_by = None  # 현재 들고 있는 캐릭터 (없으면 None)
         self.inside_cookware = None #조리중인 조리도구(다른 도구에 들어갈 때 갱신)
@@ -26,24 +27,7 @@ class Foods:
 
         self.imgW, self.imgH = self.image.w, self.image.h # 이미지 크기
     def update(self):
-        #조리 시작
-        if self.state == "raw": 
-            self.state = "cooking"
-            self.cook_time = time.time() + 15
-        #조리 중
-        if self.state == "cooking":
-            self.remaining_time = self.cook_time - time.time()
-            #조리 완료
-            if self.remaining_time <= 0:
-                match self.name:
-                    case 'egg_whole_white':
-                        self.name= 'egg_fried'
-                    case 'steak_raw':
-                        self.name= 'steak_grilled'
-                    case 'fish_fillet':
-                        self.name= 'fish_sticks'
-                self.state = "cooked"
-                self.remaining_time = 0
+        pass
 
     def draw(self):
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
@@ -55,13 +39,13 @@ class Foods:
         self.w, self.h = 50, 50
         self.x = held.x
         self.y = held.y
+        self.timer = time.time()
         held.add_food(self)
 #충돌
     def get_bb(self):
        return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
-            if group == 'charater:food' and  (other.held_item == None or other.held_item == self):
-                pass
+            pass
     
 
 
