@@ -8,16 +8,8 @@ from Furniture import Furniture, Cookware, FoodBox
 from Wall import Wall
 from Charater import Charater
 import pause_mode
-import Game_data
+from Game_data import Raw_food, Cookwares
 
-Ingredient = ['fish', 'fruit', 'sashimi', 'spare', 'steak', 'sushi',
-              'apple_green','apple_red','apple_yellow','avocado_whole',
-            'banana','beet','blueberries',
-            'cantaloupe_whole','carrot','cheese','cherries',
-            'strawberry',
-            'tomato',
-            'watermelon_whole']#음식의 종류
-Cookwares = ['chopping_board','cooking_pot','frying_pan' ]
 
 def handle_events():
     global charater
@@ -28,7 +20,6 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_0:
-            print(pause)
             framework.push_mode(pause_mode)
         else:
             charater.handle_event(event)
@@ -68,7 +59,7 @@ def init():
         Game_world.add_collision_pair('charater:cookware',None,cookware)  
     
     #음식
-    foodboxs=[FoodBox(Ingredient[i], i * 60 , 200, 60,60) for i in range(len(Ingredient))]
+    foodboxs=[FoodBox(Raw_food[i], 30+i * 60 , get_canvas_height()-180, 60,60) for i in range(len(Raw_food))]
     Game_world.add_objects(foodboxs,0)
 
 

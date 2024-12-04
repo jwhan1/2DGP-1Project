@@ -68,7 +68,7 @@ class Charater:
         self.state_machine.draw()
         draw_rectangle(*self.get_bb())
         #선택한 아이템 강조
-        if self.emphatic_food < len(self.held_item):
+        if self.emphatic_food >= 0 and self.emphatic_food < len(self.held_item):
             draw_rectangle(*self.held_item[self.emphatic_food].get_bb())
 
 # 입력
@@ -94,23 +94,23 @@ class Charater:
                     if self.x - self.w / 2 < other.x + other.w / 2 and self.xdir < 0:  # 왼쪽 막힘
                         if  other.y + other.h / 2 - self.y - self.h / 2 < other.x + other.w / 2-self.x - self.w / 2 and self.ydir < 0:  # 아래 막힘
                             self.ydir = 0
-                            self.y += 1  
+                            if other.y < self.y: self.y += 1  
                         elif self.y + self.h / 2 - other.y - other.h / 2 < other.x + other.w / 2-self.x - self.w / 2 and self.ydir > 0:  # 위 막힘
                             self.ydir = 0
-                            self.y -= 1
+                            if other.y > self.y: self.y -= 1
                         else:
                             self.xdir = 0
-                            self.x += 1  
+                            if other.x < self.x: self.x += 1  
                     elif self.x + self.w / 2 > other.x - other.w / 2 and self.xdir > 0:  # 오른쪽 막힘
                         if  other.y + other.h / 2 - self.y - self.h / 2 < self.x + self.w / 2 - other.x - other.w / 2 and self.ydir < 0:  # 아래 막힘
                             self.ydir = 0
-                            self.y  += 1   
+                            if other.y < self.y: self.y  += 1   
                         elif self.y + self.h / 2 - other.y - other.h / 2 < self.x + self.w / 2 - other.x - other.w / 2 and self.ydir > 0:  # 위 막힘
                             self.ydir = 0
-                            self.y  -= 1 
+                            if other.y > self.y: self.y  -= 1 
                         else:
                             self.xdir = 0
-                            self.x -= 1  
+                            if other.x > self.x: self.x -= 1  
                     elif self.y - self.h / 2 < other.y + other.h / 2 and self.ydir < 0:  # 아래 막힘
                         self.ydir = 0
                         self.y += 1  
@@ -129,6 +129,10 @@ class Charater:
         food.y = 50
     def remove_food(self,food):
         self.held_item.remove(food)
+        
+        if self.emphatic_food>=len(self.held_item):
+            self.emphatic_food=len(self.held_item)-1
+
 
 
 
@@ -159,11 +163,10 @@ class Idle:
                         place = o
 
                 if place != None:
-                    boy.held_item[0].move_to(place)
+                    boy.held_item[boy.emphatic_food].move_to(place)
                 else: print('놓을 곳이 없다.')
 
             elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
-                print('a')
                 target = None # 집을 음식
                 #잡을 음식 고르기
                 for o in boy.handrangefood:
@@ -190,10 +193,29 @@ class MoveUp:
     def enter(boy, e):
         boy.xdir, boy.ydir, boy.action = 0, 1, 1
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -220,10 +242,29 @@ class MoveRightUp:
              boy.action = 1
         
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -246,10 +287,29 @@ class MoveRight:
     def enter(boy, e):
         boy.xdir, boy.ydir, boy.action = 1, 0, 0
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -274,10 +334,29 @@ class MoveRightDown:
         elif down_down(e):
             boy.action = 3
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -299,10 +378,29 @@ class MoveDown:
     def enter(boy, e):
         boy.xdir, boy.ydir, boy.action = 0, -1, 3
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -327,10 +425,29 @@ class MoveLeftDown:
         elif down_down(e):
             boy.action = 3
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -353,10 +470,29 @@ class MoveLeft:
     def enter(boy, e):
         boy.xdir, boy.ydir, boy.action = -1, 0, 2
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8
@@ -381,10 +517,29 @@ class MoveLeftUp:
         elif left_down(e):
              boy.action = 2
     @staticmethod
-    def exit(boy, e):
-        if press_e(e):
-            pass
+    def exit(boy,e):
+        if press_e(e) :
+            if len(boy.held_item) > 0 and boy.placeputup: # 조리대, 매대에 음식을 올린다.
+                place = None
+                for o in boy.placeputup:
+                    if  place == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (place.x-boy.x)**2 + (place.y-boy.y)**2:#더 가까우면
+                        place = o
 
+                if place != None:
+                    boy.held_item[0].move_to(place)
+                else: print('놓을 곳이 없다.')
+
+            elif len(boy.held_item) < 5 and boy.handrangefood: # 주변의 가까운 음식을 집는다.
+                target = None # 집을 음식
+                #잡을 음식 고르기
+                for o in boy.handrangefood:
+                    if  target == None or (o.x-boy.x)**2 + (o.y-boy.y)**2 < (target.x-boy.x)**2 + (target.y-boy.y)**2:#더 가까우면
+                        target = o
+                #음식 가져오기
+                if target != None and not target in boy.held_item:# 잡기
+                    target.move_to(boy)
+                else: print('주변에 음식이 없음')
+    
     @staticmethod
     def do(boy):
         # boy.frame = (boy.frame + 1) % 8

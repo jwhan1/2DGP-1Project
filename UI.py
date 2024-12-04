@@ -4,7 +4,7 @@ import time
 
 import result_mode
 import Game_data
-GAME_TIME_LIMIT = 180
+GAME_TIME_LIMIT = 10
 
 
 #UI총괄 클래스
@@ -18,9 +18,9 @@ class UI:
         self.Point = Point()
         self.order = Order()
     def update(self):
-        self.timer.do()
-        self.Point.do()
-        self.order.do()
+        self.timer.do(self)
+        self.Point.do(self)
+        self.order.do(self)
     def draw(self):
         self.timer.draw()
         self.Point.draw()
@@ -45,10 +45,10 @@ class Timer:
         self.elapsed_time = GAME_TIME_LIMIT
         self.image = load_image("image/timer.png")
 
-    def do(self):
+    def do(self,U):
         self.elapsed_time = GAME_TIME_LIMIT-(time.time() - self.timer)
         if self.elapsed_time < 0:# 시간이 되면
-            Game_data.Game_point.append(self.Point.point)
+            Game_data.Game_point.append(U.Point.point)
             framework.change_mode(result_mode)
             
             
@@ -65,7 +65,7 @@ class Point:
         self.point = 0# 게임 포인트
         
 
-    def do(self):
+    def do(self,U):
         pass
     def draw(self): 
      self.font.draw(20, get_canvas_height()-40, f'point:{self.point}', (0, 0, 255))
@@ -74,7 +74,7 @@ class Point:
 class Order:
     def __init__(self):
         pass
-    def do(self):
+    def do(self,U):
          pass
     def draw(self): 
      pass

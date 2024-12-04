@@ -4,6 +4,7 @@ import play_mode
 import Game_world
 import framework
 from Foods import Foods
+from Game_data import  what_input
 
 class Cookware:
     def __init__(self, what, x, y,w,h):
@@ -67,8 +68,8 @@ class Cookware:
 
 class Furniture:
     def __init__(self, what, left, bottom,right,top):
-        self.x = (left+right)/2
-        self.y = (bottom+top)/2
+        self.x = (left + right)/2
+        self.y = (bottom + top)/2
         self.w = right-left
         self.h = top-bottom
         self.image = load_image(f'image/furniture/{what}.png')
@@ -89,11 +90,11 @@ class Furniture:
             pass
     def add_food(self, food):
         #점수를 주고 음식을 제거
-        print('on')
         play_mode.Ui.Point.point+=100
         play_mode.Ui.add_point(food.name)
         Game_world.remove_collision_object(food)
         Game_world.remove_object(food)
+        what_input.append(food.name)
         del food
         pass
 

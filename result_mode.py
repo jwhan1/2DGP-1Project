@@ -7,14 +7,17 @@ def handle_events():
     global charater
     events = get_events()
     for event in events:
-        pass
+        if event.type == SDL_QUIT:
+            framework.quit()
            
 
 def init():
-    global image
+    global image, result
     image = load_image('image/title.png')
     #결과창
-    result=Result()
+    result = Result()
+    Game_world.add_object(result,0)
+
 
 def finish():
     Game_world.clear()

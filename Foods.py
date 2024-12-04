@@ -2,7 +2,7 @@ from pico2d import load_image, draw_rectangle, load_font
 import StateMachine
 import framework
 import time
-
+from Game_data import Raw_food, cooked_food
 whatfood = {'apple_green','apple_red','apple_yellow','abocado_whole',
             'banana','beet','blueberries',
             'cantaloupe_whole','carrot','cheese','cherries',
@@ -22,22 +22,31 @@ class Foods:
 
         self.held_by = None  # 현재 들고 있는 캐릭터 (없으면 None)
         self.inside_cookware = None #조리중인 조리도구(다른 도구에 들어갈 때 갱신)
-        self.image = load_image(f'image/food/{what}.png')
+        self.image = load_image(f'image/food/{self.name}.png')
 
         self.imgW, self.imgH = self.image.w, self.image.h # 이미지 크기
     def update(self):
-        #조리도구에 들어가면
+        #조리 시작
         if self.state == "raw": 
             self.state = "cooking"
             self.cook_time = time.time() + 15
-        self.remaining_time = self.cook_time - time.time()
+        #조리 중
+        if self.state == "cooking":
+            self.remaining_time = self.cook_time - time.time()
+            #조리 완료
+            if self.remaining_time <= 0:
+                match self.name:
+                    case 'egg_whole_white':
+                        self.name= 'egg_fried'
+                    case 'steak_raw':
+                        self.name= 'steak_grilled'
+                    case 'fish_fillet':
+                        self.name= 'fish_sticks'
+                self.state = "cooked"
+                self.remaining_time = 0
 
-        if self.remaining_time <= 0:
-            self.state = "cooked"
-            self.remaining_time = 0
     def draw(self):
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
-        draw_rectangle(*self.get_bb())
     def handle_event(self, event):
         pass
     def move_to(self,held):

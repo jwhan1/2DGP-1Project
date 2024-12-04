@@ -40,7 +40,6 @@ class button:
             
             match self.what:
                 case 'start':
-                    print(f"{event.x} / {event.y} / {left}, {bottom}, {right}, {top}")
                     button.sound.play()
                     framework.change_mode(levelchoose_mode)
                 case 'level_1':
