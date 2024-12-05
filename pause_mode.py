@@ -22,6 +22,7 @@ def update():
     pass
 def draw():
     clear_canvas()
+    Game_world.update()
     image.clip_draw(0, 0, image.w, image.h, get_canvas_width()/2, get_canvas_width()/2, get_canvas_width(), get_canvas_width())
     update_canvas()
 

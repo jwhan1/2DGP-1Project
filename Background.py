@@ -16,12 +16,8 @@ class Background:
     def draw(self):
         self.image.clip_draw(0, 0, self.image.w, self.image.w, self.x, self.y, self.w, self.h)
         
-        
-        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-250, 50, 50, 50)
-        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-200, 50, 50, 50)
-        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-150, 50, 50, 50)
-        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-100, 50, 50, 50)
-        self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-50, 50, 50, 50)
+        for i in range(1,6):
+            self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-50*i, 50, 50, 50)
 
     def handle_event(self, event):
         pass

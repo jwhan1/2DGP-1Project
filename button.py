@@ -1,4 +1,5 @@
 import framework
+import Game_world
 import play_mode
 import levelchoose_mode
 
@@ -38,18 +39,21 @@ class button:
         bottom, top = get_canvas_height() - top, get_canvas_height() - bottom
         if left < event.x and event.x < right and bottom < event.y and event.y < top:
             
+            button.sound.play()
             match self.what:
                 case 'start':
-                    button.sound.play()
                     framework.change_mode(levelchoose_mode)
+                case 'save':
+                    Game_world.save()
+                case 'load':
+                    Game_world.load()
+                case 'quit':
+                    framework.quit()
                 case 'level_1':
-                    button.sound.play()
                     framework.change_mode(play_mode)
                 case 'level_2':
-                    button.sound.play()
                     framework.change_mode(play_mode)
                 case 'level_3':
-                    button.sound.play()
                     framework.change_mode(play_mode)
     
     def get_bb(self):

@@ -100,15 +100,15 @@ class Furniture:
     def add_food(self, food):
         #점수를 주고 음식을 제거
         order=False
-        for i in play_mode.Ui.order_list:
+        for i in play_mode.orders:
             if food.name == i.food:
-                play_mode.Ui.Point.point+=i.point
-                play_mode.Ui.order_list.remove(i)
+                play_mode.Ui.point+=i.point
+                Game_world.remove_object(i)
+                play_mode.orders.remove(i)
                 order=True
                 break
         if not order:
-            play_mode.Ui.Point.point+=50
-        play_mode.Ui.add_point(food.name)
+            play_mode.Ui.point+=50
         Game_world.remove_collision_object(food)
         Game_world.remove_object(food)
         what_input.append(food.name)
@@ -154,7 +154,7 @@ class FoodBox:
         food = Foods(self.food,self.x,self.y)
         food.held_by=self
         self.held_item.append(food)
-        Game_world.add_object(food,1)
+        Game_world.add_object(food,4)
         Game_world.add_collision_pair('charater:food',None,food)
         Game_world.add_collision_pair('cookware:food',None,food)
     def remove_food(self, food):

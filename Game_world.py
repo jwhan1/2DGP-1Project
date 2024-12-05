@@ -1,6 +1,6 @@
 import pickle
 
-world = [[] for _ in range(4)]
+world = [[] for _ in range(10)]
 collision_pairs = {} # 충돌 검사를 수행할 빈 딕셔너리
 
 # 생성
@@ -11,7 +11,7 @@ def add_collision_pair(group,a,b):
     if a: collision_pairs[group][0].append(a)
     if b: collision_pairs[group][1].append(b)
 
-def add_object( e, depth):#추가할 객체,레이어        
+def add_object(e, depth):#추가할 객체,레이어        
     world[depth].append(e)
 
 def add_objects(ol, depth = 0):#객체들 추가
@@ -23,7 +23,7 @@ def update():
         for o in layer:
             o.update()
 
-def  render():
+def render():
     for layer in world:
         for o in layer:
             o.draw()

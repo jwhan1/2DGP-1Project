@@ -1,12 +1,16 @@
-from pico2d import draw_rectangle
+from pico2d import draw_rectangle, load_image
 
 
 class Wall:
+    image=None
     def __init__(self, left, bottom, right, top):
+
         self.x=(left + right) / 2
         self.y=(top + bottom) / 2
         self.w = right - left
         self.h = top - bottom
+        if Wall.image==None:
+            Wall.image = load_image('image\wall.png')
     def update(self):
         pass
     def handle_event(self):
@@ -14,6 +18,7 @@ class Wall:
     def move_to(self):
         pass
     def draw(self):
+        Wall.image.clip_draw(0,0,Wall.image.w,Wall.image.h,self.x,self.y,self.w,self.h)
         draw_rectangle(*self.get_bb())
 #충돌
     def get_bb(self):

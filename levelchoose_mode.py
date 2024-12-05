@@ -3,23 +3,39 @@ import framework
 import Game_world
 import play_mode
 from button import button
-import Charater
-import Background
+from Background import Background
+from UI import UI
+from Furniture import Furniture, Cookware, FoodBox
+from Wall import Wall
+from Charater import Charater
 
 
 
 
 
 def load_saved_world():
-    play_mode.Charater, play_mode.background = None, None
+    play_mode.charater, play_mode.background = None, None
+    play_mode.counter,play_mode.cookwares,play_mode.foodboxs,play_mode.button,play_mode.Ui,play_mode.walls=[],[],[],[],[]
+    
     Game_world.load()
     for o in Game_world.all_objects():
-        if isinstance(o, Charater):
-            play_mode.Charater = o
-        elif isinstance(o, Background):
+        if isinstance(o, Background):
             play_mode.background = o
-    if play_mode.Charater and play_mode.background:
-        pass
+        elif isinstance(o, Charater):
+            play_mode.charater = o
+        elif isinstance(0,Furniture):
+            play_mode.counter = o
+        elif isinstance(0,Cookware):
+            play_mode.cookwares = o
+        elif isinstance(0,FoodBox):
+            play_mode.foodboxs.append(o)
+        elif isinstance(0,button):
+            play_mode.button.append(o)
+        elif isinstance(0,UI):
+            play_mode.Ui = o
+        elif isinstance(0,Wall):
+            play_mode.walls.append(o)
+        
 
 
 
