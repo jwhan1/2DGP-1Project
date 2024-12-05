@@ -3,14 +3,18 @@ from pico2d import load_image,get_canvas_width,get_canvas_height
 
 class Background:
     def __init__(self):
-        self.background = GameObject('image/background.png',get_canvas_width()/2,get_canvas_height()/2,get_canvas_width(),get_canvas_height())
+        self.image = load_image('image/background.png')
+        self.x = get_canvas_width()/2
+        self.y = get_canvas_height()/2
+        self.w = get_canvas_width()
+        self.h = get_canvas_height()
 
         self.itemUI = load_image('image/foodUI.png')
     def update(self):
         pass
 
     def draw(self):
-        self.background.image.clip_draw(0, 0, self.background.image.w, self.background.image.w, self.background.x, self.background.y, self.background.w, self.background.h)
+        self.image.clip_draw(0, 0, self.image.w, self.image.w, self.x, self.y, self.w, self.h)
         
         
         self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-250, 50, 50, 50)
@@ -27,11 +31,7 @@ class Background:
 
     def handle_collision(self, group, other):
             pass
-
-class GameObject:
-    def __init__(self, image_path, x, y, w=0, h=0):
-        self.image = load_image(image_path)
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+    def __getstate__(self):
+        return {}
+    def __setstate__(self, state):
+        self.__init__()

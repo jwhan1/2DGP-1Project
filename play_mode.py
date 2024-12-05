@@ -2,9 +2,9 @@ from pico2d import *
 import framework
 import Game_world
 import time
-
+import pickle
 from Background import Background
-from UI import UI, Order
+from UI import UI
 from Furniture import Furniture, Cookware, FoodBox
 from Wall import Wall
 from Charater import Charater
@@ -88,5 +88,6 @@ def pause():
 
 def resume():
     #멈춘 시간만큼 UI시간 수정
-    Ui.timer = Ui.timer + framework.frame_time - pausetime
-    pass
+    pause = time.time() - pausetime
+    Ui.timer = Ui.timer + pause
+    

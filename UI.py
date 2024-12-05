@@ -39,6 +39,9 @@ class UI:
     def add_point(self,name):
         #주문 목록에 있을 경우 점수 상승
         self.Point.point==100
+    def __getstate__(self):
+        state = {'stack':self.stack, 'result':self.result}
+        return state
 
 class Timer:
     

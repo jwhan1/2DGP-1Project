@@ -60,4 +60,7 @@ class button:
         pass
     def remove_food(self,food):
         pass
-
+    def __getstate__(self):
+        return {}
+    def __setstate__(self, state):
+        self.__init__()

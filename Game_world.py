@@ -1,3 +1,5 @@
+import pickle
+
 world = [[] for _ in range(4)]
 collision_pairs = {} # 충돌 검사를 수행할 빈 딕셔너리
 
@@ -68,4 +70,20 @@ def handle_collision(): #실제 검사를 진행 (어떤 객체의 충돌도 사
                     a.handle_collision(group, b)
                     b.handle_collision(group, a)
 
+game_data=[]
+def save():
+    game_data = [world,collision_pairs]#월드와 충돌 정보
+    with open ('game.sav','wb') as f:
+        pickle.dump(game_data,f)
+def load():
+    global world, collision_pairs
+    with open ('game.sav','rb') as f:
+        pickle.load(game_data,f)
+        world,collision_pairs = game_data
 
+def all_objects():
+    world_object=[]
+    for layer in world:
+        for o in layer:
+            world_object.append(o)
+    return world_object

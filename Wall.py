@@ -20,3 +20,9 @@ class Wall:
        return self.x - self.w / 2, self.y - self.h / 2, self.x + self.w / 2, self.y + self.h / 2
     def handle_collision(self, group, other):
         pass
+    def __getstate__(self):
+        left, bottom, right, top = self.get_bb()
+        state = {"left" : left, "bottom" : bottom, "right" : right, "top" : top}
+        return state
+    def __setstate__(self, state):
+        self.__init__(state["left"],state["bottom"],state["right"],state["top"])

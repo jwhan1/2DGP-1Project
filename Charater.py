@@ -91,34 +91,26 @@ class Charater:
                     place = other
                     self.placeputup.append(place) #접근 가능한 장소
                 case 'charater:wall':#벽 부딪힘
-                
-                    if self.x - self.w / 2 < other.x + other.w / 2 and self.xdir < 0:  # 왼쪽 막힘
-                        if  other.y + other.h / 2 - self.y - self.h / 2 < other.x + other.w / 2-self.x - self.w / 2 and self.ydir < 0:  # 아래 막힘
-                            self.ydir = 0
-                            if other.y < self.y: self.y += 1  
-                        elif self.y + self.h / 2 - other.y - other.h / 2 < other.x + other.w / 2-self.x - self.w / 2 and self.ydir > 0:  # 위 막힘
-                            self.ydir = 0
-                            if other.y > self.y: self.y -= 1
-                        else:
-                            self.xdir = 0
-                            if other.x < self.x: self.x += 1  
-                    elif self.x + self.w / 2 > other.x - other.w / 2 and self.xdir > 0:  # 오른쪽 막힘
-                        if  other.y + other.h / 2 - self.y - self.h / 2 < self.x + self.w / 2 - other.x - other.w / 2 and self.ydir < 0:  # 아래 막힘
-                            self.ydir = 0
-                            if other.y < self.y: self.y  += 1   
-                        elif self.y + self.h / 2 - other.y - other.h / 2 < self.x + self.w / 2 - other.x - other.w / 2 and self.ydir > 0:  # 위 막힘
-                            self.ydir = 0
-                            if other.y > self.y: self.y  -= 1 
-                        else:
-                            self.xdir = 0
-                            if other.x > self.x: self.x -= 1  
-                    elif self.y - self.h / 2 < other.y + other.h / 2 and self.ydir < 0:  # 아래 막힘
-                        self.ydir = 0
-                        self.y += 1  
+                    xdis, ydis = other.x - self.x, other.y - self.y
+                    xR , yR = (self.w + other.w) / 2, (self.h + other.h) / 2
+                    xrange, yrange = abs(abs(xdis) - xR), abs(abs(ydis) - yR)
 
-                    elif self.y + self.h / 2 > other.y - other.h / 2 and self.ydir > 0:  # 위 막힘
-                        self.ydir = 0
-                        self.y -= 1
+
+                    # x축 충돌 검사
+                    
+                    if -xR < xdis < xR and xrange > yrange:  # 위아래에 있음
+                        if 0 <= ydis <= yR and self.ydir > 0:  # 위 막힘
+                                self.ydir = 0
+                        elif -yR <= ydis <= 0 and self.ydir < 0:  # 아래 막힘
+                                self.ydir = 0
+
+                    elif -yR < ydis < yR and xrange < yrange:  # 양 옆에 있음
+                        if 0 <= xdis <= xR and self.xdir > 0:  # 아래 막힘
+                            self.xdir = 0
+                        elif -xR <= xdis <= 0 and self.xdir < 0:  # 위 막힘
+                            self.xdir = 0
+                            
+                    
                     
                 
     def add_food(self, food):
@@ -133,8 +125,12 @@ class Charater:
         
         if self.emphatic_food>=len(self.held_item):
             self.emphatic_food=len(self.held_item)-1
-
-
+    def __getstate__(self):
+        state = {'x':self.x, 'y':self.y, 'item':self.held_item}
+        return state
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
 
 
 

@@ -3,6 +3,28 @@ import framework
 import Game_world
 import play_mode
 from button import button
+import Charater
+import Background
+
+
+
+
+
+def load_saved_world():
+    play_mode.Charater, play_mode.background = None, None
+    Game_world.load()
+    for o in Game_world.all_objects():
+        if isinstance(o, Charater):
+            play_mode.Charater = o
+        elif isinstance(o, Background):
+            play_mode.background = o
+    if play_mode.Charater and play_mode.background:
+        pass
+
+
+
+
+
 def handle_events():
     global charater
     events = get_events()

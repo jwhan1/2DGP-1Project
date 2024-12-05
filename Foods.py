@@ -12,10 +12,10 @@ whatfood = {'apple_green','apple_red','apple_yellow','abocado_whole',
 
 class Foods:
     
-    def __init__(self, what, x, y):
+    def __init__(self, name, x, y):
         self.x, self.y = x, y # 위치
         self.w, self.h = 50, 50 # 크기
-        self.name = what#음식 이름
+        self.name = name#음식 이름
         self.state = "raw"  # raw -> cooking -> cooked
         self.timer = time.time()
         self.cook_time = 8  # 조리 완료 시간 (초)

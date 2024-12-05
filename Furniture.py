@@ -69,8 +69,12 @@ class Cookware:
   
     def remove_food(self, food):
         self.held_item.remove(food)
-
-
+    def __getstate__(self):
+        state = {'x':self.x, 'y':self.y, 'ware':self.ware,'held_item':self.held_item}
+        return state
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
 class Furniture:
     def __init__(self, what, left, bottom,right,top):
         self.x = (left + right)/2
@@ -109,7 +113,11 @@ class Furniture:
         Game_world.remove_object(food)
         what_input.append(food.name)
         del food
-
+    def __getstate__(self):
+        return {}
+    def __setstate__(self, state):
+        self.__init__()
+        pass
 class FoodBox:
     def __init__(self, what, x, y,w,h):
         self.x = x
@@ -151,4 +159,6 @@ class FoodBox:
         Game_world.add_collision_pair('cookware:food',None,food)
     def remove_food(self, food):
         self.held_item.remove(food)
-
+    def __getstate__(self):
+        state = {'x':self.x, 'y':self.y, 'food':self.food,'held_item':self.held_item}
+        return state
