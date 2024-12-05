@@ -7,12 +7,13 @@ from Foods import Foods
 from Game_data import  what_input, Raw_food, cooking
 
 class Cookware:
+    max_capacity = 2# 최대 조리 가능 음식 수
     def __init__(self, what, x, y,w,h):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
-        self.max_capacity = 2  # 최대 조리 가능 음식 수
+        
         self.held_item = []  # 보괸 중인 음식 목록
         
         self.timer = framework.frame_time # 요리 시작시간
@@ -28,20 +29,18 @@ class Cookware:
             ingredient.state = "cooking"
             if ingredient.inside_cookware != self.ware:
                 ingredient.inside_cookware = self.ware
-                ingredient.remaining_time = ingredient.cook_time#조리 시간
+                ingredient.timer = time.time()#조리 시간
             
 
-            ingredient.remaining_time = ingredient.cook_time - (time.time() - self.timer)
+            ingredient.remaining_time = time.time() - ingredient.timer
+            if ingredient.remaining_time < ingredient.cook_time:
+                pass#요리 사운드
 
-            if ingredient.remaining_time < 0 and not ingredient.name in Raw_food:# 시간이 되면
+            if ingredient.remaining_time > ingredient.cook_time and ingredient.name in Raw_food:# 시간이 되면
                 ingredient.state = "cooked"#조리된다
                 ingredient.name = cooking[ingredient.name]
                 ingredient.image = load_image(f'image/food/{ingredient.name}.png')
-                        
-    
-                
-
-        
+            
     def draw(self):
         self.image.clip_draw(0, 0, self.imgW, self.imgH, self.x, self.y, self.w, self.h)
         draw_rectangle(*self.get_bb())
@@ -101,6 +100,7 @@ class Furniture:
                 play_mode.Ui.Point.point+=i.point
                 play_mode.Ui.order_list.remove(i)
                 order=True
+                break
         if not order:
             play_mode.Ui.Point.point+=50
         play_mode.Ui.add_point(food.name)
