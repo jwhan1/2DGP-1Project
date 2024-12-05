@@ -1,6 +1,7 @@
 from pico2d import *
 import framework
 import Game_world
+import time
 
 from Background import Background
 from UI import UI, Order
@@ -82,7 +83,7 @@ def draw():
 def pause():
     #UI시간 멈추기
     global pausetime
-    pausetime = framework.frame_time
+    pausetime = time.time()
     pass
 
 def resume():

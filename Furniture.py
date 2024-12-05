@@ -34,7 +34,8 @@ class Cookware:
 
             ingredient.remaining_time = time.time() - ingredient.timer
             if ingredient.remaining_time < ingredient.cook_time:
-                pass#요리 사운드
+                match self.ware:#요리 사운드
+                    case 'a':pass
 
             if ingredient.remaining_time > ingredient.cook_time and ingredient.name in Raw_food:# 시간이 되면
                 ingredient.state = "cooked"#조리된다

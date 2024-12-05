@@ -11,4 +11,4 @@ cooked_food =  ['egg_fried','steak_grilled','fish_sticks']
 cooking = {'egg_whole_white':'egg_fried','steak_raw':'steak_grilled','fish_fillet':'fish_sticks'}
 
 #조리 도구들
-Cookwares = ['chopping_board','cooking_pot','frying_pan' ]
+Cookwares = ['gas_stove_pan','gas_stove_pot','chopping_board']

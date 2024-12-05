@@ -22,7 +22,7 @@ def update():
     pass
 def draw():
     clear_canvas()
-    image.clip_draw(0, 0, image.w, image.h, 400, 300, 400, 300)
+    image.clip_draw(0, 0, image.w, image.h, get_canvas_width()/2, get_canvas_width()/2, get_canvas_width(), get_canvas_width())
     update_canvas()
 
 def pause():

@@ -14,7 +14,7 @@ class button:
         self.imgW, self.imgH = self.image.w, self.image.h
 
         if button.sound==None:
-            button.sound = load_wav('title\Level Ready.mp3')
+            button.sound = load_wav('sound\Level Ready.mp3')
             button.sound.set_volume(32)
         match what:
             case 'start':
