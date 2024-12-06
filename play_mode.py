@@ -34,8 +34,9 @@ def init():
     
     walls = [Wall(0,0,get_canvas_width(),100)]
     walls.append(Wall(get_canvas_width()*4/5,100, (get_canvas_width()*7)/8,get_canvas_height()/3))
-    walls.append(Wall(get_canvas_width()*13/15,get_canvas_height()/4, get_canvas_width()*15/16,get_canvas_height()*3/4))
+    walls.append(Wall(get_canvas_width()*13/15,get_canvas_height()/3, get_canvas_width()*7/8,get_canvas_height()*2/3))
     walls.append(Wall(get_canvas_width()*4/5,get_canvas_height()*2/3, get_canvas_width()*7/8,get_canvas_height()))
+    walls.append(Wall(get_canvas_width()/3,get_canvas_height()/3, get_canvas_width()*2/5,get_canvas_height()*2/3))
     Game_world.add_objects(walls,1)
     for wall in walls:
         Game_world.add_collision_pair('charater:wall',None,wall)
@@ -85,15 +86,18 @@ def draw():
     clear_canvas()
     Game_world.render()
     update_canvas()
-
+Pause=False
 def pause():
     #UI시간 멈추기
-    global pausetime
+    global pausetime, Pause
+    Pause = True
     pausetime = time.time()
-    pass
 
 def resume():
     #멈춘 시간만큼 UI시간 수정
     pause = time.time() - pausetime
-    Ui.timer.timer = Ui.timer.timer + pause
+    Ui.timer = Ui.timer + pause
+    for i in cookwares:
+        i.timer+=pausetime
+    pause = False
     

@@ -56,8 +56,8 @@ def init():
     global image, imageui, buttons
     image = load_image('image/title.png')
     buttons = [button('level_1',get_canvas_width() / 2,get_canvas_height() / 3+100)]
-    buttons.append(button('level_2',get_canvas_width() / 2,get_canvas_height() / 3))
-    buttons.append(button('level_3',get_canvas_width() / 2,get_canvas_height() / 3-100))
+    #buttons.append(button('level_2',get_canvas_width() / 2,get_canvas_height() / 3))
+    #buttons.append(button('level_3',get_canvas_width() / 2,get_canvas_height() / 3-100))
     Game_world.add_objects(buttons,1)
 
 def finish():

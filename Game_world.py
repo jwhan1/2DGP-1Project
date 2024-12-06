@@ -70,13 +70,29 @@ def handle_collision(): #실제 검사를 진행 (어떤 객체의 충돌도 사
                     a.handle_collision(group, b)
                     b.handle_collision(group, a)
 
-game_data=[]
+
 def save():
     game_data = [world,collision_pairs]#월드와 충돌 정보
+    print(game_data)
     with open ('game.sav','wb') as f:
-        pickle.dump(game_data,f)
+        #pickle.dump(game_data,f)
+        try:
+            pickle.dumps(world)
+            print("world 직렬화 성공")
+        except Exception as e:
+            print(f"world 직렬화 실패: {e}")
+
+        try:
+            pickle.dumps(collision_pairs)
+            print("collision_pairs 직렬화 성공")
+        except Exception as e:
+            print(f"collision_pairs 직렬화 실패: {e}")
+
+
+game_data=[]
 def load():
     global world, collision_pairs
+    
     with open ('game.sav','rb') as f:
         pickle.load(game_data,f)
         world,collision_pairs = game_data
