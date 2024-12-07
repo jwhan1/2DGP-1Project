@@ -1,7 +1,7 @@
 from pico2d import *
 from StateMachine import *
 
-import Game_world
+
 import framework
 
 # Run Speed
@@ -23,7 +23,7 @@ class Charater:
     image_h = 130
     font=None
     def __init__(self):
-        self.x, self.y = 400, 300    #위치
+        self.x, self.y = get_canvas_width()//2, get_canvas_height()//2    #위치
         self.w, self.h = 50, 50   #크기
         self.xdir, self.ydir = 0, 0    #이동
         self.frame = 0
