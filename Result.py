@@ -10,7 +10,6 @@ class Result:
         self.best = best_point
         self.point = Game_point[-1]
         self.list = []
-        print(what_input)
         self.list = [load_image(f'image/food/{what_input[i]}.png') for i in range(len(what_input))]
         self.back = load_image('image/result_background.png')
         if Result.font == None:

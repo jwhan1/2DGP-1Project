@@ -34,17 +34,14 @@ class Cookware:
         #음식 조리
         for ingredient in self.held_item:
             if ingredient.state != "cooked":
-                ingredient.state == "cooking"
                 if ingredient.inside_cookware != self.ware:
                     ingredient.inside_cookware = self.ware
                     ingredient.timer = time.time()#조리 시작 시간
-                    self.sound.repeat_play()
+                    self.sound.play()
 
                 ingredient.remaining_time = time.time() - ingredient.timer
 
                 if ingredient.remaining_time > ingredient.cook_time and ingredient.name in Raw_food:# 시간이 되면
-                    self.sound.__del__()#소리 멈춤
-                    self.sound = load_wav(f'sound/{self.ware}_sound.mp3')
                     Cookware.sound.play()
                     ingredient.state = "cooked"#조리된다
                     ingredient.name = cooking[ingredient.name]

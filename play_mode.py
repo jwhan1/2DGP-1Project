@@ -19,8 +19,6 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_0:
             framework.push_mode(pause_mode)
         else:
