@@ -1,7 +1,5 @@
 import pickle
 
-
-
 world = [[] for _ in range(10)]
 collision_pairs = {} # 충돌 검사를 수행할 빈 딕셔너리
 
@@ -75,14 +73,11 @@ def save():
     with open ('game.sav','wb') as f:
         pickle.dump(game_data,f)
 
-
 def load():
     global world, collision_pairs
     with open ('game.sav','rb') as f:
         game_data = pickle.load(f)
         world,collision_pairs = game_data
-
-        
 
 def all_objects():
     world_object=[]
@@ -90,7 +85,3 @@ def all_objects():
         for o in layer:
             world_object.append(o)
     return world_object
-
-
-
-
