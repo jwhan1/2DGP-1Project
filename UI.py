@@ -40,7 +40,7 @@ class UI:
         #시간
         self.elapsed_time = GAME_TIME_LIMIT-(time() - self.timer)
         if self.elapsed_time < 0:# 시간이 되면
-            Game_point.append(self.point)
+            Game_point.append(UI.point)
             change_mode(result_mode)
 
         self.left_time -= time() - self.order_time
@@ -65,7 +65,7 @@ class UI:
                                        (int)(get_canvas_width()/2 * self.elapsed_time / GAME_TIME_LIMIT),get_canvas_height()-10,
                                          (int)(get_canvas_width()* self.elapsed_time / GAME_TIME_LIMIT), 20)# 타이머
         #점수
-        UI.font.draw(20, get_canvas_height()-40, f'point:{self.point}', (0, 0, 255))
+        UI.font.draw(20, get_canvas_height()-40, f'point:{UI.point}', (0, 0, 255))
         #아이템칸
         for i in range(1,6):
             self.itemUI.clip_draw(0, 0, self.itemUI.w, self.itemUI.h, get_canvas_width()-50*i, 50, 50, 50)
@@ -80,9 +80,10 @@ class UI:
     def handle_collision(self, group, other):
             pass
     def __getstate__(self):
-        state = { "elapsed_time":self.elapsed_time, "left_time":self.left_time}
+        state = { "elapsed_time":self.elapsed_time, "left_time":self.left_time,"point":UI.point}
         return state
     def __setstate__ (self,state):
         self.__init__()
         self.timer = time() - (GAME_TIME_LIMIT - state["elapsed_time"])
         self.__dict__.update(state)
+        UI.point=state["point"]
