@@ -2,7 +2,6 @@ from random import randrange
 from time import time
 from pico2d import *
 import Game_world
-import play_mode
 import result_mode
 from Game_data import Game_point
 from Order import Order
@@ -56,8 +55,7 @@ class UI:
                 Order.list.append(order)
             if self.left_time < 0:
                 self.left_time = randrange(5,12)
-        
-        
+
     def draw(self):
         #시간
         
