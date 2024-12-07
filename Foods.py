@@ -46,8 +46,12 @@ class Foods:
        return self.x-self.w/2,self.y-self.h/2,self.x+self.w/2,self.y+self.h/2
     def handle_collision(self, group, other):
             pass
-    
-
+    def __getstate__(self):
+        state = {"name":self.name, "x":self.x, "y":self.y, "held_by":self.held_by,"inside_cookware":self.inside_cookware, "state":self.state}
+        return state
+    def __setstate__ (self,state):
+        self.__init__(state["name"],state["x"],state["y"],)
+        self.__dict__.update(state)
 
 
 

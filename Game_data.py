@@ -15,12 +15,3 @@ cooking = {'egg_whole_white':'egg_fried','steak_raw':'steak_grilled','fish_fille
 #조리 도구들
 Cookwares = ['gas_stove_pan','gas_stove_pot','chopping_board']
 
-
-Ingredient_string = json.dumps(Ingredient)
-print(type(Ingredient_string))
-print(Ingredient_string)
-value_string = '{"x":10,"y":10,"size":100}'
-value=json.loads(value_string)
-print(type(value))
-print(value)
-

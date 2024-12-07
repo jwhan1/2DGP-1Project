@@ -1,7 +1,9 @@
 from pico2d import *
 import framework
 import Game_world
+import play_mode
 import title_mode
+
 def handle_events():
     global charater
     events = get_events()
@@ -17,12 +19,11 @@ def handle_events():
         if event.type == SDL_KEYDOWN and event.key == SDLK_l:#로드
             Game_world.load()
             framework.pop_mode()
-           
+            play_mode.load_saved_world()
 
 def init():
     global image
     image = load_image('image\pause.png')
-
 
 def finish():
     pass
@@ -40,3 +41,4 @@ def pause():
 
 def resume():
     pass
+

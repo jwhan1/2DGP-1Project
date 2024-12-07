@@ -1,7 +1,9 @@
 from pico2d import load_image,load_music,load_wav, draw_rectangle
-import play_mode
+import time
 import Game_world
 import framework
+from Order import Order
+from UI import UI
 from Foods import Foods
 from Game_data import  what_input, Raw_food, cooking
 
@@ -36,10 +38,10 @@ class Cookware:
                 ingredient.state == "cooking"
                 if ingredient.inside_cookware != self.ware:
                     ingredient.inside_cookware = self.ware
-                    ingredient.timer = play_mode.Ui.elapsed_time#조리 시작 시간
+                    ingredient.timer = time.time()#조리 시작 시간
                     self.sound.repeat_play()
 
-                ingredient.remaining_time = ingredient.timer - play_mode.Ui.elapsed_time
+                ingredient.remaining_time = time.time() - ingredient.timer
 
                 if ingredient.remaining_time > ingredient.cook_time and ingredient.name in Raw_food:# 시간이 되면
                     self.sound.stop()#소리 멈춤
@@ -74,11 +76,13 @@ class Cookware:
     def remove_food(self, food):
         self.held_item.remove(food)
     def __getstate__(self):
-        state = {"x":self.x, "y":self.y, "ware":self.ware,"held_item":self.held_item}
+        state = {"x":self.x, "y":self.y, "w":self.w, "h":self.h, "ware":self.ware,"held_item":self.held_item}
         return state
     def __setstate__(self, state):
-        self.__init__()
+        self.__init__(state["ware"], state["x"], state["y"], state["w"], state["h"])
         self.__dict__.update(state)
+
+        
 class Furniture:
     def __init__(self, what, left, bottom,right,top):
         self.max_capacity = float("inf")
@@ -106,16 +110,16 @@ class Furniture:
             pass
     def add_food(self, food):
         #점수를 주고 음식을 제거
-        order=False
-        for i in play_mode.orders:
+        order = False
+        for i in Order.list:
             if food.name == i.food:
-                play_mode.Ui.point+=i.point
+                UI.point += i.point
                 Game_world.remove_object(i)
-                play_mode.orders.remove(i)
-                order=True
+                Order.list.remove(i)
+                order = True
                 break
         if not order:
-            play_mode.Ui.point+=50
+            UI.point += 50
         Game_world.remove_collision_object(food)
         Game_world.remove_object(food)
         what_input.append(food.name)
@@ -125,7 +129,7 @@ class Furniture:
         state = {"what":self.what, "left":left, "bottom":bottom, "right":right, "top":top}
         return state
     def __setstate__(self, state):
-        self.__init__()
+        self.__init__(state["what"],state["left"],state["bottom"],state["right"],state["top"],)
 
 class FoodBox:
     max_capacity = 2
@@ -170,8 +174,8 @@ class FoodBox:
     def remove_food(self, food):
         self.held_item.remove(food)
     def __getstate__(self):
-        state = {"x":self.x, "y":self.y, "food":self.food,"held_item":self.held_item}
+        state = {"x":self.x, "y":self.y, "w":self.w, "h":self.h, "food":self.food,"held_item":self.held_item}
         return state
     def __setstate__(self, state):
-        self.__init__(state["food"],state["x"],state["w"],state["h"])
-        self.update(state)
+        self.__init__(state["food"],state["x"],state["w"],state["w"],state["h"])
+        self.__dict__.update(state)

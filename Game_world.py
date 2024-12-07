@@ -1,5 +1,7 @@
 import pickle
 
+
+
 world = [[] for _ in range(10)]
 collision_pairs = {} # 충돌 검사를 수행할 빈 딕셔너리
 
@@ -17,7 +19,6 @@ def add_object(e, depth):#추가할 객체,레이어
 def add_objects(ol, depth = 0):#객체들 추가
     world[depth] += ol
 #진행
-
 def update():
     for layer in world:
         for o in layer:
@@ -28,7 +29,6 @@ def render():
         for o in layer:
             o.draw()
 #제거
-
 def remove_object(o):# o 제거
     for layer in world:
         if o in layer:
@@ -38,7 +38,6 @@ def remove_object(o):# o 제거
             return
     print(f'CRITICAL : 존재하지 않는 객체{o}를 지우려고 합니다.')
 
-
 def remove_collision_object(o):
     for pairs in collision_pairs.values():
         if o in pairs[0]:
@@ -46,11 +45,9 @@ def remove_collision_object(o):
         if o in pairs[1]:
             pairs[1].remove(o)
 
-
 def clear():
     for layer in world:
         layer.clear()
-
 #충돌 판정
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()
@@ -70,32 +67,22 @@ def handle_collision(): #실제 검사를 진행 (어떤 객체의 충돌도 사
                     a.handle_collision(group, b)
                     b.handle_collision(group, a)
 
-
 def save():
+    global world, collision_pairs
+
     game_data = [world,collision_pairs]#월드와 충돌 정보
-    print(game_data)
+
     with open ('game.sav','wb') as f:
-        #pickle.dump(game_data,f)
-        try:
-            pickle.dumps(world)
-            print("world 직렬화 성공")
-        except Exception as e:
-            print(f"world 직렬화 실패: {e}")
-
-        try:
-            pickle.dumps(collision_pairs)
-            print("collision_pairs 직렬화 성공")
-        except Exception as e:
-            print(f"collision_pairs 직렬화 실패: {e}")
+        pickle.dump(game_data,f)
 
 
-game_data=[]
 def load():
     global world, collision_pairs
-    
     with open ('game.sav','rb') as f:
-        pickle.load(game_data,f)
+        game_data = pickle.load(f)
         world,collision_pairs = game_data
+
+        
 
 def all_objects():
     world_object=[]
@@ -103,3 +90,7 @@ def all_objects():
         for o in layer:
             world_object.append(o)
     return world_object
+
+
+
+
