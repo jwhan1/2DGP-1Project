@@ -1,4 +1,4 @@
-from pico2d import load_image,load_music,load_wav, draw_rectangle
+from pico2d import load_image, load_wav, draw_rectangle
 import time
 import Game_world
 import framework
@@ -6,7 +6,6 @@ from Order import Order
 from UI import UI
 from Foods import Foods
 from Game_data import  what_input, Raw_food, cooking
-
 class Cookware:
     sound = None
     def __init__(self, what, x, y,w,h):
@@ -25,11 +24,11 @@ class Cookware:
         self.imgW = self.image.w
         self.imgH = self.image.h
 
-        self.sound = load_music(f'sound\{what}_sound.mp3')
-        self.sound.set_volume(32)
+        self.sound = load_wav(f'sound/{what}_sound.mp3')
+        self.sound.set_volume(15)
         if Cookware.sound == None:
-            Cookware.sound = load_wav('sound\sound.mp3')
-            Cookware.sound.set_volume(16)
+            Cookware.sound = load_wav('sound/sound.mp3')
+            Cookware.sound.set_volume(18)
 
     def update(self):
         #음식 조리
@@ -44,7 +43,8 @@ class Cookware:
                 ingredient.remaining_time = time.time() - ingredient.timer
 
                 if ingredient.remaining_time > ingredient.cook_time and ingredient.name in Raw_food:# 시간이 되면
-                    self.sound.stop()#소리 멈춤
+                    self.sound.__del__()#소리 멈춤
+                    self.sound = load_wav(f'sound/{self.ware}_sound.mp3')
                     Cookware.sound.play()
                     ingredient.state = "cooked"#조리된다
                     ingredient.name = cooking[ingredient.name]
