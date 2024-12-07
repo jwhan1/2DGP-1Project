@@ -10,7 +10,6 @@ class Result:
         self.point = Game_point[-1]
         self.font = load_font('ENCR10B.TTF', 40)
         self.list = []
-        print(what_input)
         self.list = [load_image(f'image/food/{what_input[i]}.png') for i in range(len(what_input))]
         self.back=load_image('image/result_background.png')
     def update(self):

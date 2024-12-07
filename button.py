@@ -1,8 +1,5 @@
-import framework
-import Game_world
-import play_mode
-import levelchoose_mode
 from pico2d import load_image, draw_rectangle,load_wav,get_canvas_height
+
 
 
 class button:
@@ -16,18 +13,22 @@ class button:
         if button.sound == None:
             button.sound = load_wav('sound\Level Ready.mp3')
             button.sound.set_volume(32)
+        self.w,self.h=60,60
         match what:
             case 'start':
-                self.w,self.h=100,100
+                self.w,self.h=100,60
             case 'level_1':
-                self.w,self.h=100,50
+                self.w,self.h=80,80
             case 'level_2':
-                self.w,self.h=100,50
+                self.w,self.h=80,80
             case 'level_3':
-                self.w,self.h=100,50
+                self.w,self.h=80,80
             case 'load':
                 self.w,self.h=100,50
-
+            case 'quit':
+                self.w,self.h = 100,50
+            case 'title':
+                self.w,self.h = 100,100
 
     def update(self):
         pass
@@ -40,28 +41,23 @@ class button:
         left, bottom, right, top = self.get_bb()
         bottom, top = get_canvas_height() - top, get_canvas_height() - bottom
         if left < event.x and event.x < right and bottom < event.y and event.y < top:
-            
             button.sound.play()
             match self.what:
                 case 'start':
-                    framework.change_mode(levelchoose_mode)
-                case 'save':
-                    Game_world.save()
-                case 'load':
-                    Game_world.load()
-                    framework.change_mode(play_mode)
-                    play_mode.load_saved_world()
-                case 'quit':
-                    framework.quit()
+                    self.w,self.h=100,60
                 case 'level_1':
-                    framework.change_mode(play_mode)
-                    play_mode.create_new_level_1()
+                    self.w,self.h=80,80
                 case 'level_2':
-                    framework.change_mode(play_mode)
-                    play_mode.create_new_level_2()
+                    self.w,self.h=80,80
                 case 'level_3':
-                    framework.change_mode(play_mode)
-                    play_mode.create_new_level_3()
+                    self.w,self.h=80,80
+                case 'load':
+                    self.w,self.h=100,50
+                case 'quit':
+                    self.w,self.h = 100,50
+                case 'title':
+                    self.w,self.h = 100,100
+
     
     def get_bb(self):
         return self.x - self.w/2, self.y - self.h/2, self.x + self.w/2, self.y + self.h/2
@@ -75,3 +71,4 @@ class button:
         return {}
     def __setstate__(self, state):
         self.__init__()
+
