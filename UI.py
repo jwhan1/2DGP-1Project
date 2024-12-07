@@ -10,7 +10,7 @@ from framework import change_mode
 from pico2d import get_canvas_height, get_canvas_width, load_image
 
 
-GAME_TIME_LIMIT = 180
+GAME_TIME_LIMIT = 1
 
 
 #UI총괄 클래스

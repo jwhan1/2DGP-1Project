@@ -2,7 +2,7 @@ from pico2d import *
 from Result import Result
 import framework
 import Game_world
-
+import title_mode
 def handle_events():
     global charater
     events = get_events()

@@ -6,9 +6,3 @@ import title_mode as start_mode
 open_canvas(800,800)
 run(start_mode)
 close_canvas()
-
-
-'''
-저장
-일시정지창
-'''
