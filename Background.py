@@ -1,4 +1,4 @@
-from pico2d import load_image,get_canvas_width,get_canvas_height
+from pico2d import load_image, load_wav, get_canvas_width,get_canvas_height
 
 
 class Background:
@@ -8,6 +8,9 @@ class Background:
         self.y = get_canvas_height()/2
         self.w = get_canvas_width()
         self.h = get_canvas_height()
+        self.bgm = load_wav("sound/background_music.mp3")
+        self.bgm.set_volume(32)
+        self.bgm.repeat_play()
 
     def update(self):
         pass

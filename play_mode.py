@@ -19,8 +19,6 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_0:
             framework.push_mode(pause_mode)
         else:
@@ -123,9 +121,9 @@ def create_new_level_2():
     walls.append(Wall(get_canvas_width()*4/5,get_canvas_height()*2/3, get_canvas_width()*7/8,get_canvas_height()))
 
     #장애물
-    walls.append(Wall(100, get_canvas_height()/2-30, get_canvas_width()*4/5-100, get_canvas_height()/2+30))
+    walls.append(Wall(100, get_canvas_height()/2-30, get_canvas_width()/2-25, get_canvas_height()/2+30))
     walls.append(Wall(160, get_canvas_height()/2-120, 200, get_canvas_height()/2-30))
-    walls.append(Wall(get_canvas_width()/2-20, get_canvas_height()/2+30, get_canvas_width()/2+20, get_canvas_height()-60))
+    walls.append(Wall(get_canvas_width()/2-70, get_canvas_height()/2+30, get_canvas_width()/2-25, get_canvas_height()-60))
     Game_world.add_objects(walls,1)
     for wall in walls:
         Game_world.add_collision_pair('charater:wall',None,wall)
@@ -147,7 +145,7 @@ def create_new_level_2():
         Game_world.add_collision_pair('charater:cookware',None,cookware)
 
     #음식
-    foodboxs=[FoodBox(Raw_food[i], get_canvas_width()/2-50 , get_canvas_height()/2+60+i*60, 60,60) for i in range(len(Raw_food))]
+    foodboxs=[FoodBox(Raw_food[i], get_canvas_width()/2-100 , get_canvas_height()/2+60+i*60, 60,60) for i in range(len(Raw_food))]
     Game_world.add_objects(foodboxs,3)
 
     #       캐릭터,조리도구,음식
@@ -173,7 +171,7 @@ def create_new_level_3():
 
     #
     walls.append(Wall(get_canvas_width()/3,get_canvas_height()/3, get_canvas_width()*2/3,get_canvas_height()*2/5))
-    #walls.append(Wall(get_canvas_width()/3-60,get_canvas_height()/3-20, get_canvas_width()*2/5+60,get_canvas_height()/3))
+    walls.append(Wall(get_canvas_width()/3-60,100, get_canvas_width()/3,get_canvas_height()*2/3))
     #walls.append(Wall(get_canvas_width()/3-60,get_canvas_height()*2/3, get_canvas_width()*2/5+60,get_canvas_height()*2/3+20))
     Game_world.add_objects(walls,1)
     for wall in walls:
@@ -188,13 +186,13 @@ def create_new_level_3():
     Game_world.add_collision_pair('charater:counter',None,counter)
 
     # 조리대
-    wares = [Cookware(Cookwares[i],30, i * 60 + 300, 60,60) for i in range(len(Cookwares))]
+    wares = [Cookware(Cookwares[i],get_canvas_width()/3+30+i*60, get_canvas_height()/3-30,60,60) for i in range(len(Cookwares))]
     Game_world.add_objects(wares,3)
     for cookware in wares:
         Game_world.add_collision_pair('charater:cookware',None,cookware)
 
     #음식
-    foodboxs=[FoodBox(Raw_food[i], 30+i * 60 , get_canvas_height()-180, 60,60) for i in range(len(Raw_food))]
+    foodboxs=[FoodBox(Raw_food[i], 30+i * 60 , 130, 60,60) for i in range(len(Raw_food))]
     Game_world.add_objects(foodboxs,3)
 
     #       캐릭터,조리도구,음식

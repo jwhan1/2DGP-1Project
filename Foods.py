@@ -40,6 +40,7 @@ class Foods:
         self.x = held.x
         self.y = held.y
         self.timer = time.time()
+        self.inside_cookware=None
         held.add_food(self)
 #충돌
     def get_bb(self):
