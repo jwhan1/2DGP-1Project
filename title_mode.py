@@ -1,7 +1,6 @@
 from pico2d import *
 import framework
 import Game_world
-import levelchoose_mode
 from button import button
 def handle_events():
     global charater
@@ -17,10 +16,9 @@ def handle_events():
 def init():
     global image, buttons
     image = load_image('image/title.png')
-    buttons=[button('start',get_canvas_width() / 2,get_canvas_height() / 3)]
+    buttons = [button('start',get_canvas_width() / 2, get_canvas_height() / 3)]
+    buttons.append(button('quit',get_canvas_width() / 2, get_canvas_height() / 3-100))
     Game_world.add_objects(buttons,1)
-
-
 
 def finish():
     Game_world.clear()
